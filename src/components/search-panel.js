@@ -1,7 +1,8 @@
 import React from 'react'
+import { Input } from './styles'
 
 const SearchPanel = () => {
-  return <input placeholder="search" />
+  return <Input placeholder="search" />
 }
 
 export default SearchPanel
