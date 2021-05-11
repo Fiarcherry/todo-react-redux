@@ -1,13 +1,20 @@
 import React from 'react'
 
-import { DeleteButton, ImportantButton, Item } from './styles'
+import { Item, Label, DeleteButton, ImportantButton } from './styles'
 
-const TodoListItem = ({ label, important = false }) => {
+const TodoListItem = ({
+  label,
+  onDeleted,
+  onToggleImportant,
+  onToggleDone,
+  done,
+  important,
+}) => {
   return (
-    <Item important={important}>
-      {label}
-      <DeleteButton>Удалить</DeleteButton>
-      <ImportantButton>Важное</ImportantButton>
+    <Item important={important} done={done}>
+      <Label onClick={onToggleDone}>{label}</Label>
+      <DeleteButton onClick={onDeleted}>Удалить</DeleteButton>
+      <ImportantButton onClick={onToggleImportant}>Важное</ImportantButton>
     </Item>
   )
 }

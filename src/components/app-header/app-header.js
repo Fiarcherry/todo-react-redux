@@ -2,11 +2,13 @@ import React from 'react'
 
 import { Header, TodosLeft } from './styles'
 
-const AppHeader = () => {
+const AppHeader = ({ toDo, done }) => {
   return (
     <div>
       <Header>My Todo List</Header>
-      <TodosLeft>1 more to do, 3 done</TodosLeft>
+      <TodosLeft>
+        {toDo} more to do, {done} done
+      </TodosLeft>
     </div>
   )
 }
