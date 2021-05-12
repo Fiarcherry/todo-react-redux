@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Item, Label, DeleteButton, ImportantButton } from './styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Item, Label, Button, CheckedButton } from './styles'
 
 const TodoListItem = ({
   label,
@@ -12,9 +13,20 @@ const TodoListItem = ({
 }) => {
   return (
     <Item important={important} done={done}>
+      <CheckedButton onClick={onToggleDone}>
+        {done ? (
+          <FontAwesomeIcon icon="check-circle" size="lg" />
+        ) : (
+          <FontAwesomeIcon icon={['far', 'circle']} size="lg" />
+        )}
+      </CheckedButton>
       <Label onClick={onToggleDone}>{label}</Label>
-      <DeleteButton onClick={onDeleted}>Удалить</DeleteButton>
-      <ImportantButton onClick={onToggleImportant}>Важное</ImportantButton>
+      <Button onClick={onDeleted}>
+        <FontAwesomeIcon icon="trash-alt" size="lg" />
+      </Button>
+      <Button onClick={onToggleImportant}>
+        <FontAwesomeIcon icon="exclamation-circle" size="lg" />
+      </Button>
     </Item>
   )
 }

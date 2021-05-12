@@ -1,7 +1,17 @@
 import styled from 'styled-components'
 
-const List = styled.li`
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const List = styled.ul`
+  max-width: 1000px;
+  padding: 0px;
+`
+
+const ListElement = styled.li`
   list-style: none;
 `
 
-export { List }
+export { Container, List, ListElement }

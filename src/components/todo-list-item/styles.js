@@ -5,29 +5,43 @@ const Item = styled.span`
   font-weight: ${(props) => (props.important ? 'bold' : 'normal')};
   text-decoration: ${(props) => (props.done ? 'line-through' : 'none')};
   font-style: ${(props) => (props.done ? 'italic' : 'normal')};
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 const Label = styled.span`
   font-family: 'Comic Sans MS', cursive, sans-serif;
   cursor: pointer;
+
+  flex-grow: 1;
+  overflow-wrap: anywhere;
 `
 
 const Button = styled.button`
   margin: 3px;
-  padding: 3px;
-  border: 3px solid #9696dc;
-  border-radius: 5px;
-  background-color: #ffffff;
+  padding: 5px;
+  color: #bebef0;
+  border: 1px solid #9696dc;
+  border-radius: 4px;
+  background-color: #fff;
   cursor: pointer;
   transition: 100ms ease-in-out;
 
   &:hover {
-    background-color: #9696dc;
+    color: #9696dc;
+    background-color: #e6e6fa;
   }
 `
 
-const DeleteButton = styled(Button)``
+const CheckedButton = styled(Button)`
+  border: none;
 
-const ImportantButton = styled(Button)``
+  &:hover {
+    color: #9696dc;
+    background-color: #fff;
+  }
+`
 
-export { Item, Label, DeleteButton, ImportantButton }
+export { Item, Label, Button, CheckedButton }

@@ -1,15 +1,19 @@
 import React from 'react'
 
-import { Header, TodosLeft } from './styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Container, Header, TodosLeft } from './styles'
 
 const AppHeader = ({ toDo, done }) => {
   return (
-    <div>
-      <Header>My Todo List</Header>
+    <Container>
+      <Header>
+        <FontAwesomeIcon icon="list-ul" size="lg" pull="left" />
+        My Todo List
+      </Header>
       <TodosLeft>
         {toDo} more to do, {done} done
       </TodosLeft>
-    </div>
+    </Container>
   )
 }
 

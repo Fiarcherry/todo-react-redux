@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from './styles'
+import { Button, Container } from './styles'
 
 export default class ItemStatusFilter extends Component {
   buttons = [
@@ -25,6 +25,6 @@ export default class ItemStatusFilter extends Component {
       )
     })
 
-    return <div>{buttons}</div>
+    return <Container>{buttons}</Container>
   }
 }

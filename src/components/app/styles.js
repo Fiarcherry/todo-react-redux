@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
 const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 80%;
+  margin: 5% auto;
 `
 
 export { AppContainer }

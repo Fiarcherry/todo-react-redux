@@ -1,6 +1,15 @@
 import styled from 'styled-components'
 
-const Form = styled.form``
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Form = styled.form`
+  display: flex;
+  flex-grow: 1;
+  max-width: 580px;
+`
 
 const Button = styled.button`
   color: #9696dc;
@@ -10,6 +19,8 @@ const Button = styled.button`
   border: none;
   transition: 100ms ease-in-out;
   cursor: pointer;
+
+  flex-grow: 1;
 
   &:hover {
     color: #f0f0ff;
@@ -27,6 +38,8 @@ const Input = styled.input`
   border-bottom: 2px solid #9696dc;
   opacity: 0.5;
   transition: opacity 250ms ease-in-out;
+
+  flex-grow: 7;
 
   &:focus {
     outline: none;
@@ -47,4 +60,4 @@ const Input = styled.input`
   }
 `
 
-export { Form, Button, Input }
+export { Container, Form, Button, Input }

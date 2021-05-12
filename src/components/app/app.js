@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faExclamationCircle,
+  faTrashAlt,
+  faCheckCircle,
+  faListUl,
+} from '@fortawesome/free-solid-svg-icons'
+import { faCircle } from '@fortawesome/free-regular-svg-icons'
 import { AppContainer } from './styles'
 
 import AppHeader from '../app-header'
@@ -7,6 +15,8 @@ import SearchPanel from '../search-panel'
 import ItemStatusFilter from '../item-status-filter'
 import TodoList from '../todo-list'
 import ItemAddForm from '../item-add-form'
+
+library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 
 export default class App extends Component {
   maxId = 0

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Input } from './styles'
+import { Container, Input } from './styles'
 
 export default class SearchPanel extends Component {
   state = {
@@ -15,12 +15,14 @@ export default class SearchPanel extends Component {
 
   render() {
     return (
-      <Input
-        type="text"
-        placeholder="type to search"
-        value={this.state.term}
-        onChange={this.onSearchChange}
-      />
+      <Container>
+        <Input
+          type="text"
+          placeholder="type to search"
+          value={this.state.term}
+          onChange={this.onSearchChange}
+        />
+      </Container>
     )
   }
 }
