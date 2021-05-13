@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
 import Wrapper from '../Wrapper'
+import AppHeader from '../AddHeader'
+import SearchPanel from '../SearchPanel'
+import ItemStatusFilter from '../ItemStatusFilter'
+import TodoList from '../TodoList'
+import ItemAddForm from '../ItemAddForm'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faExclamationCircle,
@@ -9,12 +15,6 @@ import {
   faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
-
-import AppHeader from '../app-header'
-import SearchPanel from '../search-panel'
-import ItemStatusFilter from '../item-status-filter'
-import TodoList from '../todo-list'
-import ItemAddForm from '../item-add-form'
 
 library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 

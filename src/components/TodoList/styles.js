@@ -16,4 +16,8 @@ const ListElement = styled.li`
   list-style: none;
 `
 
-export { Container, List, ListElement }
+const Divider = styled.hr`
+  border: 1px solid #e6e6fa;
+`
+
+export { Container, List, ListElement, Divider }
