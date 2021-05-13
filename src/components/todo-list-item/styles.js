@@ -20,7 +20,7 @@ const Label = styled.span`
 `
 
 const Button = styled.button`
-  margin: 3px;
+  margin: 3px 0px 3px 6px;
   padding: 5px;
   color: #bebef0;
   border: 1px solid #9696dc;
@@ -36,6 +36,8 @@ const Button = styled.button`
 `
 
 const CheckedButton = styled(Button)`
+  margin: 3px 6px 3px 0px;
+  padding: 0;
   border: none;
 
   &:hover {

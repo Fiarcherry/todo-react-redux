@@ -6,8 +6,10 @@ const Container = styled.div`
 `
 
 const List = styled.ul`
-  max-width: 1000px;
+  max-width: 800px;
   padding: 0px;
+
+  flex-grow: 1;
 `
 
 const ListElement = styled.li`

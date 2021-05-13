@@ -8,19 +8,19 @@ const Container = styled.div`
 const Form = styled.form`
   display: flex;
   flex-grow: 1;
-  max-width: 580px;
+  max-width: 600px;
 `
 
 const Button = styled.button`
   color: #9696dc;
-  margin: 5px 0px;
-  padding: 8px 30px;
+  padding: 10px 20px;
   background-color: #e6e6fa;
   border: none;
   transition: 100ms ease-in-out;
   cursor: pointer;
 
-  flex-grow: 1;
+  flex-grow: 4;
+  min-width: fit-content;
 
   &:hover {
     color: #f0f0ff;
@@ -30,8 +30,7 @@ const Button = styled.button`
 
 const Input = styled.input`
   color: #9696dc;
-  margin: 5px;
-  padding: 3px;
+  padding: 10px;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   font-size: 16px;
   border: none;
@@ -39,7 +38,8 @@ const Input = styled.input`
   opacity: 0.5;
   transition: opacity 250ms ease-in-out;
 
-  flex-grow: 7;
+  flex-grow: 6;
+  width: 60%;
 
   &:focus {
     outline: none;

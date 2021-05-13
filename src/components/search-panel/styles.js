@@ -17,6 +17,7 @@ const Input = styled.input`
   transition: opacity 250ms ease-in-out;
 
   flex-grow: 1;
+  width: 100%;
   max-width: 580px;
 
   &:focus {
