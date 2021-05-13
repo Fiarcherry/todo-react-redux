@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Wrapper from '../Wrapper'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faExclamationCircle,
@@ -8,7 +9,6 @@ import {
   faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
-import { AppContainer } from './styles'
 
 import AppHeader from '../app-header'
 import SearchPanel from '../search-panel'
@@ -128,7 +128,7 @@ export default class App extends Component {
     const todoCount = todoData.length - doneCount
 
     return (
-      <AppContainer>
+      <Wrapper>
         <AppHeader toDo={todoCount} done={doneCount} />
         <SearchPanel onSearchChange={this.onSearchChange} />
         <ItemStatusFilter
@@ -142,7 +142,7 @@ export default class App extends Component {
           onToggleDone={this.onToggleDone}
         />
         <ItemAddForm onItemAdded={this.addItem} />
-      </AppContainer>
+      </Wrapper>
     )
   }
 }
