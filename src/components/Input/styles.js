@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-const Input = styled.input`
+const StyledInput = styled.input`
   color: ${({ theme }) => theme.colors.primary1};
-  padding: 10px;
-  margin-bottom: 20px;
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
   font-family: ${({ theme }) => theme.fonts.comicSans};
   font-size: 16px;
   border: none;
@@ -11,9 +11,9 @@ const Input = styled.input`
   opacity: 0.5;
   transition: opacity 250ms ease-in-out;
 
-  flex-grow: 1;
-  width: 100%;
-  max-width: 580px;
+  flex-grow: ${({ flexGrow }) => flexGrow};
+  width: ${({ width }) => width};
+  max-width: 560px;
 
   &:focus {
     outline: none;
@@ -34,4 +34,4 @@ const Input = styled.input`
   }
 `
 
-export { Input }
+export { StyledInput }

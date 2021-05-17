@@ -128,21 +128,21 @@ export default class App extends Component {
     const todoCount = todoData.length - doneCount
 
     return (
-      <Wrapper>
-        <AppHeader toDo={todoCount} done={doneCount} />
-        <SearchPanel onSearchChange={this.onSearchChange} />
-        <ItemStatusFilter
-          filter={filter}
-          onFilterChange={this.onFilterChange}
-        />
-        <TodoList
-          todos={visibleItems}
-          onDeleted={this.deleteItem}
-          onToggleImportant={this.onToggleImportant}
-          onToggleDone={this.onToggleDone}
-        />
-        <ItemAddForm onItemAdded={this.addItem} />
-      </Wrapper>
+        <Wrapper>
+          <AppHeader toDo={todoCount} done={doneCount} />
+          <SearchPanel onSearchChange={this.onSearchChange} />
+          <ItemStatusFilter
+            filter={filter}
+            onFilterChange={this.onFilterChange}
+          />
+          <TodoList
+            todos={visibleItems}
+            onDeleted={this.deleteItem}
+            onToggleImportant={this.onToggleImportant}
+            onToggleDone={this.onToggleDone}
+          />
+          <ItemAddForm onItemAdded={this.addItem} />
+        </Wrapper>
     )
   }
 }

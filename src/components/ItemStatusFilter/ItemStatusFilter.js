@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Button, Container } from './styles'
+
+import Container from '../Container'
+import Button from '../Button'
 
 export default class ItemStatusFilter extends Component {
   buttons = [
@@ -19,12 +21,12 @@ export default class ItemStatusFilter extends Component {
           key={name}
           isActive={isActive}
           onClick={() => onFilterChange(name)}
-        >
-          {label}
-        </Button>
+          title={label}
+          mode="filter"
+        />
       )
     })
 
-    return <Container>{buttons}</Container>
+    return <Container justifyContent="center">{buttons}</Container>
   }
 }

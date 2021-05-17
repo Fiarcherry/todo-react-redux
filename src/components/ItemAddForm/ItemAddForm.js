@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
-import { Button, Container, Form, Input } from './styles'
+import Button from '../Button'
+import Container from '../Container'
+import Form from '../Form/Form'
+import Input from '../Input/Input'
 
 export default class ItemAddForm extends Component {
   state = {
@@ -23,15 +26,15 @@ export default class ItemAddForm extends Component {
 
   render() {
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
+      <Container justifyContent="center">
+        <Form onSubmit={this.onSubmit} flex>
           <Input
-            type="text"
             onChange={this.onLabelChange}
             placeholder="What needs to be done"
             value={this.state.label}
+            flexGrow="4"
           />
-          <Button>Add Item</Button>
+          <Button title="Add Item" />
         </Form>
       </Container>
     )

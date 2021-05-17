@@ -1,10 +1,13 @@
 import React from 'react'
 
 import TodoListItem from '../TodoListItem'
-import { Container, Divider, List, ListElement } from './styles'
+import Container from '../Container'
+import Divider from '../Divider'
+import List from '../List'
+import ListElement from '../ListElement'
 
 const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
-  const elements = todos.map((item) => {
+  const elements = todos.map((item, index) => {
     const { id, ...itemProps } = item
     return (
       <ListElement key={id}>
@@ -14,13 +17,13 @@ const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
           onToggleImportant={() => onToggleImportant(id)}
           onToggleDone={() => onToggleDone(id)}
         />
-        {todos.length - 1 === id ? '' : <Divider></Divider>}
+        {todos.length - 1 === index ? '' : <Divider />}
       </ListElement>
     )
   })
 
   return (
-    <Container>
+    <Container justifyContent="center">
       <List>{elements}</List>
     </Container>
   )
