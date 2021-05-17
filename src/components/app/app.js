@@ -7,6 +7,8 @@ import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
 import ItemAddForm from '../ItemAddForm'
 
+import Theme from '../../Themes'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faExclamationCircle,
@@ -128,6 +130,7 @@ export default class App extends Component {
     const todoCount = todoData.length - doneCount
 
     return (
+      <Theme>
         <Wrapper>
           <AppHeader toDo={todoCount} done={doneCount} />
           <SearchPanel onSearchChange={this.onSearchChange} />
@@ -143,6 +146,7 @@ export default class App extends Component {
           />
           <ItemAddForm onItemAdded={this.addItem} />
         </Wrapper>
+      </Theme>
     )
   }
 }
