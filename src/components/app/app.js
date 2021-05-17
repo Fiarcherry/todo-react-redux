@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 
 import Wrapper from '../Wrapper'
 import AppHeader from '../AddHeader'
+import ThemeSelector from '../ThemeSelector'
 import SearchPanel from '../SearchPanel'
 import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
 import ItemAddForm from '../ItemAddForm'
 
 import Theme from '../../Themes'
+import { purple } from '../../Themes/colors'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -31,6 +33,7 @@ export default class App extends Component {
     ],
     term: '',
     filter: 'all',
+    theme: purple,
   }
 
   createTodoItem(label) {
@@ -122,17 +125,23 @@ export default class App extends Component {
     }
   }
 
+  changeTheme = (theme) => {
+    console.log('Current theme', theme)
+    this.setState({ theme })
+  }
+
   render() {
-    const { todoData, term, filter } = this.state
+    const { todoData, term, filter, theme } = this.state
 
     const visibleItems = this.search(this.filter(todoData, filter), term)
     const doneCount = todoData.filter((el) => el.done).length
     const todoCount = todoData.length - doneCount
 
     return (
-      <Theme>
+      <Theme theme={theme}>
         <Wrapper>
           <AppHeader toDo={todoCount} done={doneCount} />
+          <ThemeSelector changeTheme={this.changeTheme} />
           <SearchPanel onSearchChange={this.onSearchChange} />
           <ItemStatusFilter
             filter={filter}

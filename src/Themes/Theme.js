@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { purple, green } from './colors'
-
 import { ThemeProvider } from 'styled-components'
 
-const Theme = ({ children }) => (
-  <ThemeProvider theme={green}>{children}</ThemeProvider>
+const Theme = ({ theme, children }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
 )
 
 export default Theme
