@@ -11,6 +11,7 @@ const Button = ({
   isActive = false,
   buttonType = '',
   children,
+  ...props
 }) => {
   // return (
   //   <StyledButton buttonType={buttonType} isActive={isActive}>
@@ -21,16 +22,18 @@ const Button = ({
   switch (buttonType) {
     case 'filter':
       return (
-        <StyledFilterButton isActive={isActive}>{title}</StyledFilterButton>
+        <StyledFilterButton isActive={isActive} {...props}>
+          {title}
+        </StyledFilterButton>
       )
     case 'icon':
-      return <StyledIconButton>{children}</StyledIconButton>
+      return <StyledIconButton {...props}>{children}</StyledIconButton>
     case 'checked':
-      return <StyledCheckedButton>{children}</StyledCheckedButton>
+      return <StyledCheckedButton {...props}>{children}</StyledCheckedButton>
 
     default:
       return (
-        <StyledButton isActive={isActive}>
+        <StyledButton isActive={isActive} {...props}>
           {title}
           {children}
         </StyledButton>

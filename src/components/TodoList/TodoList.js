@@ -2,7 +2,6 @@ import React from 'react'
 
 import TodoListItem from '../TodoListItem'
 import Container from '../common/Container'
-// import Divider from '../common/Divider'
 import List from '../common/List'
 import ListElement from '../common/ListElement'
 

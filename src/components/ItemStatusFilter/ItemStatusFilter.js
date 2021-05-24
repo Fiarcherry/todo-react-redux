@@ -3,29 +3,25 @@ import React, { Component } from 'react'
 import Container from '../common/Container'
 import FilterButton from '../common/Button/FilterButton'
 
-export default class ItemStatusFilter extends Component {
-  buttons = [
-    { name: 'all', label: 'All' },
-    { name: 'active', label: 'Active' },
-    { name: 'done', label: 'Done' },
-  ]
+import filters from '../../assets/filters'
 
+export default class ItemStatusFilter extends Component {
   render() {
     const { filter, onFilterChange } = this.props
 
-    const buttons = this.buttons.map(({ name, label }) => {
-      const isActive = filter === name
+    const elements = filters.map((item) => {
+      const isActive = filter === item
       return (
         <FilterButton
           type="button"
-          key={name}
+          key={item}
           isActive={isActive}
-          onClick={() => onFilterChange(name)}
-          title={label}
+          onClick={() => onFilterChange(item)}
+          title={item[0].toUpperCase() + item.slice(1)}
         />
       )
     })
 
-    return <Container justifyContent="center">{buttons}</Container>
+    return <Container justifyContent="center">{elements}</Container>
   }
 }

@@ -8,8 +8,17 @@ import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
 import ItemAddForm from '../ItemAddForm'
 
+import {
+  addTodo,
+  deleteTodo,
+  getTodos,
+  onTodoToggleDone,
+  onTodoToggleImportant,
+} from '../../handlers/todoHandler'
+import { getTheme, setTheme } from '../../handlers/themeHandler'
+import { getFilter, setFilter } from '../../handlers/filterHandler'
+
 import Theme from '../../Themes'
-import { purple } from '../../Themes/colors'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -19,6 +28,7 @@ import {
   faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
+import { purple } from '../../Themes/colors'
 
 library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 
@@ -26,80 +36,48 @@ export default class App extends Component {
   maxId = 0
 
   state = {
-    todoData: [
-      this.createTodoItem('Drink Coffee'),
-      this.createTodoItem('Make Awesome App'),
-      this.createTodoItem('Have a lunch'),
-    ],
+    todoData: [],
     query: '',
     filter: 'all',
     theme: purple,
   }
 
-  createTodoItem(label) {
-    return {
-      id: this.maxId++,
-      label,
-      important: false,
-      done: false,
-    }
-  }
-
   addItem = (text) => {
-    const newItem = this.createTodoItem(text)
-
-    this.setState(({ todoData }) => {
-      const newArray = [...todoData, newItem]
-
-      return {
-        todoData: newArray,
-      }
-    })
+    addTodo(text)
+    this.updateState()
   }
 
   deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id)
-
-      const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]
-
-      return {
-        todoData: newArray,
-      }
-    })
-  }
-
-  toggleProperty = (arr, id, propName) => {
-    const idx = arr.findIndex((el) => el.id === id)
-
-    const oldItem = arr[idx]
-    const newItem = { ...oldItem, [propName]: !oldItem[propName] }
-
-    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
+    deleteTodo(id)
+    this.updateState()
   }
 
   onToggleImportant = (id) => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: this.toggleProperty(todoData, id, 'important'),
-      }
-    })
+    onTodoToggleImportant(id)
+    this.updateState()
   }
 
   onToggleDone = (id) => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: this.toggleProperty(todoData, id, 'done'),
-      }
-    })
+    onTodoToggleDone(id)
+    this.updateState()
+  }
+
+  changeTheme = (theme) => {
+    setTheme(theme)
+    this.setState(getTheme)
+  }
+
+  onFilterChange = (filter) => {
+    setFilter(filter)
+    this.setState({ filter })
+  }
+
+  updateState = () => {
+    this.setState(getTodos)
   }
 
   onSearchChange = (query) => {
     this.setState({ term: query })
-  }
-
-  onFilterChange = (filter) => {
-    this.setState({ filter })
   }
 
   search = (items, query) => {
@@ -125,12 +103,12 @@ export default class App extends Component {
     }
   }
 
-  changeTheme = (theme) => {
-    this.setState({ theme })
-  }
-
   render() {
-    const { todoData, query, filter, theme } = this.state
+    const { query } = this.state
+
+    const todoData = getTodos()
+    const theme = getTheme()
+    const filter = getFilter()
 
     const visibleItems = this.search(this.filter(todoData, filter), query)
     const doneCount = todoData.filter((el) => el.done).length
