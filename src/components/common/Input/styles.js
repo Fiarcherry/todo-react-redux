@@ -13,6 +13,7 @@ const StyledInput = styled.input`
 
   flex-grow: ${({ flexGrow }) => flexGrow};
   width: ${({ width }) => width};
+  height: ${({ height }) => height};
   max-width: 560px;
 
   &:focus {

@@ -1,10 +1,10 @@
 import React from 'react'
 
 import TodoListItem from '../TodoListItem'
-import Container from '../Container'
-import Divider from '../Divider'
-import List from '../List'
-import ListElement from '../ListElement'
+import Container from '../common/Container'
+// import Divider from '../common/Divider'
+import List from '../common/List'
+import ListElement from '../common/ListElement'
 
 const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
   const elements = todos.map((item, index) => {

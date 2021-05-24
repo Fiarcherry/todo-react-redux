@@ -1,30 +1,27 @@
 import styled from 'styled-components'
 
-const StyledButton = styled.button`
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.primary3 : theme.colors.primary1};
-  padding: 10px 20px;
-  border: none;
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.primary1 : theme.colors.primary3};
-  transition: 100ms ease-in-out;
-  cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
+const StyledButton = styled.button(({ theme, isActive }) => ({
+  color: isActive ? theme.colors.primary3 : theme.colors.primary1,
+  padding: '10px 20px',
+  border: 'none',
+  backgroundColor: isActive ? theme.colors.primary1 : theme.colors.primary3,
+  transition: '100ms ease-in-out',
+  cursor: isActive ? 'default' : 'pointer',
 
-  min-width: fit-content;
-  max-width: 200px;
+  minWidth: 'fit-content',
+  maxWidth: '200px',
 
-  &:hover {
-    color: ${({ theme, isActive }) =>
-      isActive ? theme.colors.primary3 : theme.colors.primary4};
-    background-color: ${({ theme, isActive }) =>
-      isActive ? theme.colors.primary1 : theme.colors.primary2};
-  }
-`
+  ':hover': {
+    color: isActive ? theme.colors.primary3 : theme.colors.primary4,
+    backgroundColor: isActive ? theme.colors.primary1 : theme.colors.primary2,
+  },
+}))
 
 const StyledFilterButton = styled(StyledButton)`
   margin: 5px 0px;
   padding: 8px 10px;
   flex-grow: 1;
+  justify-content: center;
 `
 
 const StyledIconButton = styled(StyledButton)`

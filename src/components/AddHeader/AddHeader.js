@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Container from '../Container'
+import Container from '../common/Container'
 import Title from '../Title'
 import TodosLeft from '../TodosLeft'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Button from '../Button'
-import Container from '../Container'
+import Button from '../common/Button'
+import Container from '../common/Container'
 
 import { purple, green, orange } from '../../Themes/colors'
 

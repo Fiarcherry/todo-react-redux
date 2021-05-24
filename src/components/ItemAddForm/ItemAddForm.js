@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import Button from '../Button'
-import Container from '../Container'
-import Form from '../Form/Form'
-import Input from '../Input/Input'
+import Button from '../common/Button'
+import Container from '../common/Container'
+import Form from '../common/Form'
+import Input from '../common/Input'
 
 export default class ItemAddForm extends Component {
   state = {

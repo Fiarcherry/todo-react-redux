@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Container from '../Container'
-import Input from '../Input'
+import Container from '../common/Container'
+import Input from '../common/Input'
 
 export default class SearchPanel extends Component {
   state = {

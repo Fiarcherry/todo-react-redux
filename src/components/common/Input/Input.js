@@ -7,23 +7,27 @@ const Input = ({
   placeholder = 'Введите текст',
   onChange,
   value,
-  flexGrow = '1',
-  margin = 'unset',
-  padding = '10px 20px',
-  width = '100%',
-  ...props
+  styles = {},
 }) => {
+  const inputDefaultStyles = {
+    flexGrow: '1',
+    margin: 'unset',
+    padding: '10px 20px',
+    width: '100%',
+  }
+
+  const { ...allStyles } = {
+    ...inputDefaultStyles,
+    ...styles,
+  }
+
   return (
     <StyledInput
       type={type}
       placeholder={placeholder}
       onChange={onChange}
       value={value}
-      flexGrow={flexGrow}
-      margin={margin}
-      padding={padding}
-      width={width}
-      {...props}
+      {...allStyles}
     ></StyledInput>
   )
 }

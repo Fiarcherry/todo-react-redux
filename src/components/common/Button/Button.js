@@ -10,11 +10,11 @@ import {
 const Button = ({
   title = 'Button',
   isActive = false,
-  mode = '',
+  buttonType = '',
   children,
   ...props
 }) => {
-  switch (mode) {
+  switch (buttonType) {
     case 'filter':
       return (
         <StyledFilterButton isActive={isActive} {...props}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Wrapper from '../Wrapper'
+import Wrapper from '../common/Wrapper'
 import AppHeader from '../AddHeader'
 import ThemeSelector from '../ThemeSelector'
 import SearchPanel from '../SearchPanel'

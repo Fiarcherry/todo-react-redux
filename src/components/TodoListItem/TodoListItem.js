@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Button from '../Button'
+import IconButton from '../common/Button/IconButton'
+import CheckedButton from '../common/Button/CheckedButton'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Item, Label } from './styles'
