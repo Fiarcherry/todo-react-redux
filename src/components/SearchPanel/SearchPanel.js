@@ -14,6 +14,8 @@ export default class SearchPanel extends Component {
     this.props.onSearchChange(term)
   }
 
+  inputStyles = { margin: '0 0 20px 0' }
+
   render() {
     return (
       <Container justifyContent="center">
@@ -22,7 +24,7 @@ export default class SearchPanel extends Component {
           placeholder="type to search"
           value={this.state.term}
           onChange={this.onSearchChange}
-          margin="0 0 20px 0"
+          styles={this.inputStyles}
         />
       </Container>
     )

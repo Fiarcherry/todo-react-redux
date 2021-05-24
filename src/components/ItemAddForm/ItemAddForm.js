@@ -24,6 +24,8 @@ export default class ItemAddForm extends Component {
     })
   }
 
+  inputStyles = { flexGrow: '1' }
+
   render() {
     return (
       <Container justifyContent="center">
@@ -32,7 +34,7 @@ export default class ItemAddForm extends Component {
             onChange={this.onLabelChange}
             placeholder="What needs to be done"
             value={this.state.label}
-            flexGrow="4"
+            styles={this.inputStyles}
           />
           <Button title="Add Item" />
         </Form>
