@@ -36,3 +36,7 @@ export const orange = {
     comicSans: ['Comic Sans MS, cursive, sans-serif'],
   },
 }
+
+const colors = { purple, green, orange }
+
+export default colors
