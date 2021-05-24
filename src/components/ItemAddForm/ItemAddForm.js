@@ -1,44 +1,38 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import Button from '../common/Button'
 import Container from '../common/Container'
 import Form from '../common/Form'
 import Input from '../common/Input'
 
-export default class ItemAddForm extends Component {
-  state = {
-    label: '',
+const ItemAddForm = ({ onItemAdded }) => {
+  const [label, setLabel] = useState('')
+
+  const onLabelChange = (e) => {
+    setLabel(e.target.value)
   }
 
-  onLabelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    })
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    this.props.onItemAdded(this.state.label)
-    this.setState({
-      label: '',
-    })
+    onItemAdded(label)
+    setLabel('')
   }
 
-  inputStyles = { flexGrow: '1' }
+  const inputStyles = { flexGrow: '1' }
 
-  render() {
-    return (
-      <Container justifyContent="center">
-        <Form onSubmit={this.onSubmit} flex>
-          <Input
-            onChange={this.onLabelChange}
-            placeholder="What needs to be done"
-            value={this.state.label}
-            styles={this.inputStyles}
-          />
-          <Button title="Add Item" />
-        </Form>
-      </Container>
-    )
-  }
+  return (
+    <Container justifyContent="center">
+      <Form onSubmit={onSubmit} flex>
+        <Input
+          onChange={onLabelChange}
+          placeholder="What needs to be done"
+          value={label}
+          styles={inputStyles}
+        />
+        <Button title="Add Item" />
+      </Form>
+    </Container>
+  )
 }
+
+export default ItemAddForm

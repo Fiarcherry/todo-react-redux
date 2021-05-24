@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 
 import Container from '../common/Container'
 import Input from '../common/Input'
@@ -30,3 +30,28 @@ export default class SearchPanel extends Component {
     )
   }
 }
+
+// const SearchPanel = ({ onSearchChange }) => {
+//   const [query, setQuery] = useState('')
+
+//   const searchChange = (e) => {
+//     setQuery(e.target.value)
+//     onSearchChange(query)
+//   }
+
+//   const inputStyles = { margin: '0 0 20px 0' }
+
+//   return (
+//     <Container justifyContent="center">
+//       <Input
+//         type="text"
+//         placeholder="type to search"
+//         value={query}
+//         onChange={searchChange}
+//         styles={inputStyles}
+//       />
+//     </Container>
+//   )
+// }
+
+// export default SearchPanel

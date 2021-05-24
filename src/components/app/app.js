@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import Wrapper from '../common/Wrapper'
 import AppHeader from '../AddHeader'
@@ -28,59 +28,62 @@ import {
   faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
-import { purple } from '../../Themes/colors'
 
 library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 
-export default class App extends Component {
-  maxId = 0
+const App = () => {
+  const [todoData, setTodoData] = useState(getTodos())
+  const [filterData, setFilterData] = useState(getFilter())
+  const [themeData, setThemeData] = useState(getTheme())
+  const [query, setQuery] = useState('')
 
-  state = {
-    todoData: [],
-    query: '',
-    filter: 'all',
-    theme: purple,
-  }
-
-  addItem = (text) => {
+  const addItem = (text) => {
     addTodo(text)
-    this.updateState()
+    updateTodos()
   }
 
-  deleteItem = (id) => {
+  const deleteItem = (id) => {
     deleteTodo(id)
-    this.updateState()
+    updateTodos()
   }
 
-  onToggleImportant = (id) => {
+  const onToggleImportant = (id) => {
     onTodoToggleImportant(id)
-    this.updateState()
+    updateTodos()
   }
 
-  onToggleDone = (id) => {
+  const onToggleDone = (id) => {
     onTodoToggleDone(id)
-    this.updateState()
+    updateTodos()
   }
 
-  changeTheme = (theme) => {
+  const changeTheme = (theme) => {
     setTheme(theme)
-    this.setState(getTheme)
+    updateTheme()
   }
 
-  onFilterChange = (filter) => {
+  const onFilterChange = (filter) => {
     setFilter(filter)
-    this.setState({ filter })
+    updateFilter()
   }
 
-  updateState = () => {
-    this.setState(getTodos)
+  const updateTodos = () => {
+    setTodoData(getTodos())
   }
 
-  onSearchChange = (query) => {
-    this.setState({ term: query })
+  const updateTheme = () => {
+    setThemeData(getTheme())
   }
 
-  search = (items, query) => {
+  const updateFilter = () => {
+    setFilterData(getFilter())
+  }
+
+  const onSearchChange = (query) => {
+    setQuery(query)
+  }
+
+  const search = (items, query) => {
     if (query.length === 0) {
       return items
     }
@@ -90,7 +93,7 @@ export default class App extends Component {
     })
   }
 
-  filter = (items, filter) => {
+  const filter = (items, filter) => {
     switch (filter) {
       case 'all':
         return items
@@ -103,36 +106,27 @@ export default class App extends Component {
     }
   }
 
-  render() {
-    const { query } = this.state
+  const visibleItems = search(filter(todoData, filter), query)
+  const doneCount = todoData.filter((el) => el.done).length
+  const todoCount = todoData.length - doneCount
 
-    const todoData = getTodos()
-    const theme = getTheme()
-    const filter = getFilter()
-
-    const visibleItems = this.search(this.filter(todoData, filter), query)
-    const doneCount = todoData.filter((el) => el.done).length
-    const todoCount = todoData.length - doneCount
-
-    return (
-      <Theme theme={theme}>
-        <Wrapper>
-          <AppHeader toDo={todoCount} done={doneCount} />
-          <ThemeSelector changeTheme={this.changeTheme} />
-          <SearchPanel onSearchChange={this.onSearchChange} />
-          <ItemStatusFilter
-            filter={filter}
-            onFilterChange={this.onFilterChange}
-          />
-          <TodoList
-            todos={visibleItems}
-            onDeleted={this.deleteItem}
-            onToggleImportant={this.onToggleImportant}
-            onToggleDone={this.onToggleDone}
-          />
-          <ItemAddForm onItemAdded={this.addItem} />
-        </Wrapper>
-      </Theme>
-    )
-  }
+  return (
+    <Theme theme={themeData}>
+      <Wrapper>
+        <AppHeader toDo={todoCount} done={doneCount} />
+        <ThemeSelector changeTheme={changeTheme} />
+        <SearchPanel onSearchChange={onSearchChange} />
+        <ItemStatusFilter filter={filterData} onFilterChange={onFilterChange} />
+        <TodoList
+          todos={visibleItems}
+          onDeleted={deleteItem}
+          onToggleImportant={onToggleImportant}
+          onToggleDone={onToggleDone}
+        />
+        <ItemAddForm onItemAdded={addItem} />
+      </Wrapper>
+    </Theme>
+  )
 }
+
+export default App

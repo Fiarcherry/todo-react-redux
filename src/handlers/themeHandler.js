@@ -25,7 +25,7 @@ const tryParseString = (string) => {
   }
 
   const newTheme = themes[defaultValue]
-  
+
   setTheme(newTheme)
   return colors[newTheme]
 }
