@@ -31,7 +31,7 @@ export default class App extends Component {
       this.createTodoItem('Make Awesome App'),
       this.createTodoItem('Have a lunch'),
     ],
-    term: '',
+    query: '',
     filter: 'all',
     theme: purple,
   }
@@ -94,21 +94,21 @@ export default class App extends Component {
     })
   }
 
-  onSearchChange = (term) => {
-    this.setState({ term })
+  onSearchChange = (query) => {
+    this.setState({ term: query })
   }
 
   onFilterChange = (filter) => {
     this.setState({ filter })
   }
 
-  search = (items, term) => {
-    if (term.length === 0) {
+  search = (items, query) => {
+    if (query.length === 0) {
       return items
     }
 
     return items.filter((item) => {
-      return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1
+      return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
     })
   }
 
@@ -130,9 +130,9 @@ export default class App extends Component {
   }
 
   render() {
-    const { todoData, term, filter, theme } = this.state
+    const { todoData, query, filter, theme } = this.state
 
-    const visibleItems = this.search(this.filter(todoData, filter), term)
+    const visibleItems = this.search(this.filter(todoData, filter), query)
     const doneCount = todoData.filter((el) => el.done).length
     const todoCount = todoData.length - doneCount
 
