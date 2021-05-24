@@ -16,13 +16,12 @@ export default class ItemStatusFilter extends Component {
     const buttons = this.buttons.map(({ name, label }) => {
       const isActive = filter === name
       return (
-        <Button
+        <FilterButton
           type="button"
           key={name}
           isActive={isActive}
           onClick={() => onFilterChange(name)}
           title={label}
-          mode="filter"
         />
       )
     })

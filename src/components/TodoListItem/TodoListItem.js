@@ -16,20 +16,20 @@ const TodoListItem = ({
 }) => {
   return (
     <Item important={important} done={done}>
-      <Button mode="checked" onClick={onToggleDone}>
+      <CheckedButton onClick={onToggleDone}>
         {done ? (
           <FontAwesomeIcon icon="check-circle" size="lg" />
         ) : (
           <FontAwesomeIcon icon={['far', 'circle']} size="lg" />
         )}
-      </Button>
+      </CheckedButton>
       <Label onClick={onToggleDone}>{label}</Label>
-      <Button onClick={onDeleted} mode="icon">
+      <IconButton onClick={onDeleted}>
         <FontAwesomeIcon icon="trash-alt" size="lg" />
-      </Button>
-      <Button onClick={onToggleImportant} mode="icon">
+      </IconButton>
+      <IconButton onClick={onToggleImportant}>
         <FontAwesomeIcon icon="exclamation-circle" size="lg" />
-      </Button>
+      </IconButton>
     </Item>
   )
 }
