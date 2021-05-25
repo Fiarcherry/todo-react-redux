@@ -1,3 +1,4 @@
+import Storage from '../utils/storage'
 import colors from '../Themes/colors'
 
 const key = 'theme'
@@ -8,11 +9,11 @@ export const getThemes = () => {
 }
 
 export const getTheme = () => {
-  return tryParseString(localStorage.getItem(key))
+  return tryParseString(Storage.get(key))
 }
 
 export const setTheme = (theme) => {
-  localStorage.setItem(key, theme)
+  Storage.set(key, theme)
 }
 
 const tryParseString = (string) => {

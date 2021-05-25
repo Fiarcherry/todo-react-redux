@@ -1,3 +1,4 @@
+import Storage from '../utils/storage'
 import filters from '../assets/filters'
 
 const key = 'filter'
@@ -8,11 +9,11 @@ export const getFilters = () => {
 }
 
 export const getFilter = () => {
-  return tryParseString(localStorage.getItem(key))
+  return tryParseString(Storage.get(key))
 }
 
 export const setFilter = (theme) => {
-  localStorage.setItem(key, theme)
+  Storage.set(key, theme)
 }
 
 const tryParseString = (string) => {

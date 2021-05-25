@@ -1,6 +1,4 @@
-// посмотреть все ключи
-// let keys = Object.keys(localStorage)
-// keys.map((item) => console.log('keys', item))
+import Storage from '../utils/storage'
 
 const key = 'todos'
 const importantProperty = 'important'
@@ -8,11 +6,11 @@ const doneProperty = 'done'
 const defaultValue = []
 
 export const getTodos = () => {
-  return tryParseJSON(localStorage.getItem(key))
+  return tryParseJSON(Storage.get(key))
 }
 
 const setTodo = (data) => {
-  localStorage.setItem(key, JSON.stringify(data))
+  Storage.set(key, JSON.stringify(data))
 }
 
 export const getTodo = (id) => {
@@ -77,7 +75,9 @@ const tryParseJSON = (string) => {
     }
   } catch (e) {}
 
-  return setTodo(defaultValue)
+  setTodo(defaultValue)
+
+  return defaultValue
 }
 
 const findMaxId = (arrayOfObjects) => {
