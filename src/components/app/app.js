@@ -87,6 +87,18 @@ const App = () => {
     [setQuery]
   )
 
+  const sort = (items) => {
+    items.sort((a, b) => {
+      return a.important > b.important ? 1 : -1
+    })
+
+    items.sort((a, b) => {
+      return a.done > b.done ? 1 : -1
+    })
+
+    return items
+  }
+
   const search = (items, query) => {
     if (query.length === 0) {
       return items
@@ -110,7 +122,7 @@ const App = () => {
     }
   }
 
-  const visibleItems = search(filter(todoData, filterData), query)
+  const visibleItems = sort(search(filter(todoData, filterData), query))
   const doneCount = todoData.filter((el) => el.done).length
   const todoCount = todoData.length - doneCount
 
