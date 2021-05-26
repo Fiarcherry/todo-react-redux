@@ -5,8 +5,8 @@ import { StyledContainer } from './styles'
 const Container = ({
   children,
   flexDirection = 'row',
-  justifyContent = 'normal',
-  alignItems = 'normal',
+  justifyContent = 'center',
+  alignItems = 'center',
   ...props
 }) => {
   return (

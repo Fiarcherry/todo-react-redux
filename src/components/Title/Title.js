@@ -1,14 +1,12 @@
 import React from 'react'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { Text } from './styles'
 
-const Title = () => {
+const Title = ({ text, children }) => {
   return (
     <Text>
-      <FontAwesomeIcon icon="list-ul" size="lg" pull="left" />
-      My Todo List
+      {children}
+      {text}
     </Text>
   )
 }

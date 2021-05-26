@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import Wrapper from '../common/Wrapper'
 import AppHeader from '../AddHeader'
 import ThemeSelector from '../ThemeSelector'
+import ThemeChanger from '../ThemeChanger/ThemeChanger'
 import SearchPanel from '../SearchPanel'
 import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
@@ -79,9 +80,12 @@ const App = () => {
     setFilterData(getFilter())
   }
 
-  const onSearchChange = (query) => {
-    setQuery(query)
-  }
+  const onSearchChange = useCallback(
+    (query) => {
+      setQuery(query)
+    },
+    [setQuery]
+  )
 
   const search = (items, query) => {
     if (query.length === 0) {
@@ -106,7 +110,7 @@ const App = () => {
     }
   }
 
-  const visibleItems = search(filter(todoData, filter), query)
+  const visibleItems = search(filter(todoData, filterData), query)
   const doneCount = todoData.filter((el) => el.done).length
   const todoCount = todoData.length - doneCount
 
@@ -115,6 +119,7 @@ const App = () => {
       <Wrapper>
         <AppHeader toDo={todoCount} done={doneCount} />
         <ThemeSelector changeTheme={changeTheme} />
+        <ThemeChanger />
         <SearchPanel onSearchChange={onSearchChange} />
         <ItemStatusFilter filter={filterData} onFilterChange={onFilterChange} />
         <TodoList

@@ -18,7 +18,7 @@ const ItemAddForm = ({ onItemAdded }) => {
     setLabel('')
   }
 
-  const inputStyles = { flexGrow: '1' }
+  const inputStyles = { flexGrow: '1', padding: '10px 20px' }
 
   return (
     <Container justifyContent="center">

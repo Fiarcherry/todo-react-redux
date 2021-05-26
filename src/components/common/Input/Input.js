@@ -7,13 +7,13 @@ const Input = ({
   placeholder = 'Введите текст',
   onChange,
   value,
+  label = 'hth',
   styles = {},
 }) => {
   const inputDefaultStyles = {
     flexGrow: '1',
     margin: 'unset',
-    padding: '10px 20px',
-    width: '100%',
+    padding: 'unset',
   }
 
   const { ...allStyles } = {
@@ -27,6 +27,7 @@ const Input = ({
       placeholder={placeholder}
       onChange={onChange}
       value={value}
+      label={label}
       {...allStyles}
     ></StyledInput>
   )
