@@ -1,22 +1,100 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import TodoListItem from '../TodoListItem'
 import Container from '../common/Container'
 import List from '../common/List'
 import ListElement from '../common/ListElement'
 
-const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
-  const elements = todos.map((item, index) => {
+import {
+  deleteTodo,
+  getTodos,
+  onTodoToggleDone,
+  onTodoToggleImportant,
+} from '../../handlers/todoHandler'
+
+const TodoList = ({ filterData, query, onTodosChange }) => {
+  const [todoData, setTodoData] = useState(getTodos())
+
+  const handleTodosChange = () => {
+    setTodoData(getTodos())
+  }
+
+  const handleOnDeleted = (id) => {
+    deleteTodo(id)
+    handleTodosChange()
+  }
+
+  const handleToggleImportant = (id) => {
+    onTodoToggleImportant(id)
+    handleTodosChange()
+  }
+
+  const handleToggleDone = (id) => {
+    onTodoToggleDone(id)
+    handleTodosChange()
+  }
+
+  useEffect(() => {
+    onTodosChange()
+  }, [todoData, onTodosChange])
+
+  const calcSortOrder = (valueDone, valueImportant) => {
+    const binary = `${Number(valueDone)}${Number(!valueImportant)}`
+
+    return parseInt(binary, 2)
+  }
+
+  const sort = (items) => {
+    items.sort((a, b) => {
+      const aValue = calcSortOrder(a.done, a.important)
+      const bValue = calcSortOrder(b.done, b.important)
+
+      if (aValue === bValue) {
+        return a.label > b.label ? 1 : a.label < b.label ? -1 : 0
+      } else {
+        return aValue > bValue ? 1 : -1
+      }
+    })
+
+    return items
+  }
+
+  const search = (items, query) => {
+    if (query.length === 0) {
+      return items
+    }
+
+    return items.filter((item) => {
+      return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+    })
+  }
+
+  const filter = (items, filter) => {
+    switch (filter) {
+      case 'all':
+        return items
+      case 'active':
+        return items.filter((item) => !item.done)
+      case 'done':
+        return items.filter((item) => item.done)
+      default:
+        return items
+    }
+  }
+
+  const visibleItems = sort(search(filter(todoData, filterData), query))
+
+  const elements = visibleItems.map((item, index) => {
     const { id, ...itemProps } = item
-    const last = todos.length - 1 === index
+    const last = visibleItems.length - 1 === index
 
     return (
       <ListElement key={id} last={last}>
         <TodoListItem
           {...itemProps}
-          onDeleted={() => onDeleted(id)}
-          onToggleImportant={() => onToggleImportant(id)}
-          onToggleDone={() => onToggleDone(id)}
+          onDeleted={() => handleOnDeleted(id)}
+          onToggleImportant={() => handleToggleImportant(id)}
+          onToggleDone={() => handleToggleDone(id)}
         />
       </ListElement>
     )

@@ -6,14 +6,13 @@ import Input from '../common/Input'
 const SearchPanel = ({ onSearchChange }) => {
   const [query, setQuery] = useState('')
 
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value)
+  }
+
   useEffect(() => {
     onSearchChange(query)
   }, [query, onSearchChange])
-
-  const searchChange = (e) => {
-    setQuery(e.target.value)
-    // onSearchChange(e.target.value)
-  }
 
   const inputStyles = { margin: '0 0 20px 0', padding: '10px 20px' }
 
@@ -23,7 +22,7 @@ const SearchPanel = ({ onSearchChange }) => {
         type="text"
         placeholder="type to search"
         value={query}
-        onChange={searchChange}
+        onChange={handleQueryChange}
         styles={inputStyles}
       />
     </Container>
