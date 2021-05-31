@@ -12,8 +12,8 @@ const StyledButton = styled.button`
 
   transition: all 100ms ease-in-out;
 
-  min-width: 'fit-content';
-  max-width: '200px';
+  min-width: fit-content;
+  max-width: 200px;
 
   &:hover {
     color: ${({ theme, isActive }) =>
