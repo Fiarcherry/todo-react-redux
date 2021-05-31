@@ -16,10 +16,23 @@ const ThemeSelector = ({ onThemeChange }) => {
   useEffect(() => {
     console.log('useTheme')
 
+    const handleChange = (e) => {
+      console.log('channel', e.data)
+      onThemeChange()
+    }
 
     setTheme(themeData)
     onThemeChange()
 
+    const channel = new BroadcastChannel('theme')
+    channel.postMessage('test')
+
+    channel.addEventListener('message', (e) => handleChange(e))
+
+    return () => {
+      channel.removeEventListener('message', handleChange)
+      channel.close()
+    }
   }, [themeData, onThemeChange])
 
   const elements = getThemes().map((item, index) => {
