@@ -9,15 +9,9 @@ import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
 import ItemAddForm from '../ItemAddForm'
 
-import {
-  addTodo,
-  deleteTodo,
-  getTodos,
-  onTodoToggleDone,
-  onTodoToggleImportant,
-} from '../../handlers/todoHandler'
-import { getTheme, setTheme } from '../../handlers/themeHandler'
-import { getFilter, setFilter } from '../../handlers/filterHandler'
+import { addTodo, getTodos } from '../../handlers/todoHandler'
+import { getTheme } from '../../handlers/themeHandler'
+import { getFilter } from '../../handlers/filterHandler'
 
 import Theme from '../../Themes'
 
@@ -36,49 +30,22 @@ const App = () => {
   const [todoData, setTodoData] = useState(getTodos())
   const [filterData, setFilterData] = useState(getFilter())
   const [themeData, setThemeData] = useState(getTheme())
+  console.log('themeAppData', themeData)
   const [query, setQuery] = useState('')
 
-  const addItem = (text) => {
-    addTodo(text)
-    updateTodos()
-  }
-
-  const deleteItem = (id) => {
-    deleteTodo(id)
-    updateTodos()
-  }
-
-  const onToggleImportant = (id) => {
-    onTodoToggleImportant(id)
-    updateTodos()
-  }
-
-  const onToggleDone = (id) => {
-    onTodoToggleDone(id)
-    updateTodos()
-  }
-
-  const changeTheme = (theme) => {
-    setTheme(theme)
-    updateTheme()
-  }
-
-  const onFilterChange = (filter) => {
-    setFilter(filter)
-    updateFilter()
-  }
-
-  const updateTodos = () => {
+  const onTodosChange = useCallback(() => {
     setTodoData(getTodos())
-  }
+  }, [setTodoData])
 
-  const updateTheme = () => {
-    setThemeData(getTheme())
-  }
-
-  const updateFilter = () => {
+  const onFilterChange = useCallback(() => {
+    //console.log('onFilterChange')
     setFilterData(getFilter())
-  }
+  }, [setFilterData])
+
+  const onThemeChange = useCallback(() => {
+    console.log('onThemeChange')
+    setThemeData(getTheme())
+  }, [setThemeData])
 
   const onSearchChange = useCallback(
     (query) => {
@@ -87,42 +54,14 @@ const App = () => {
     [setQuery]
   )
 
-  const sort = (items) => {
-    items.sort((a, b) => {
-      return a.important > b.important ? 1 : -1
-    })
-
-    items.sort((a, b) => {
-      return a.done > b.done ? 1 : -1
-    })
-
-    return items
+  const addItem = (text) => {
+    addTodo(text)
+    onTodosChange()
   }
 
-  const search = (items, query) => {
-    if (query.length === 0) {
-      return items
-    }
 
-    return items.filter((item) => {
-      return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-    })
-  }
 
-  const filter = (items, filter) => {
-    switch (filter) {
-      case 'all':
-        return items
-      case 'active':
-        return items.filter((item) => !item.done)
-      case 'done':
-        return items.filter((item) => item.done)
-      default:
-        return items
-    }
-  }
 
-  const visibleItems = sort(search(filter(todoData, filterData), query))
   const doneCount = todoData.filter((el) => el.done).length
   const todoCount = todoData.length - doneCount
 
@@ -130,15 +69,14 @@ const App = () => {
     <Theme theme={themeData}>
       <Wrapper>
         <AppHeader toDo={todoCount} done={doneCount} />
-        <ThemeSelector changeTheme={changeTheme} />
+        <ThemeSelector onThemeChange={onThemeChange} />
         <ThemeChanger />
         <SearchPanel onSearchChange={onSearchChange} />
-        <ItemStatusFilter filter={filterData} onFilterChange={onFilterChange} />
+        <ItemStatusFilter onFilterChange={onFilterChange} />
         <TodoList
-          todos={visibleItems}
-          onDeleted={deleteItem}
-          onToggleImportant={onToggleImportant}
-          onToggleDone={onToggleDone}
+          filterData={filterData}
+          query={query}
+          onTodosChange={onTodosChange}
         />
         <ItemAddForm onItemAdded={addItem} />
       </Wrapper>
