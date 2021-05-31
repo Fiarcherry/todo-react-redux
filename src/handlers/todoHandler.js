@@ -68,7 +68,7 @@ const toggleProperty = (id, propertyName) => {
 
 const tryParseJSON = (string) => {
   try {
-    var result = JSON.parse(string)
+    const result = JSON.parse(string)
 
     if (result && typeof result === 'object') {
       return result
