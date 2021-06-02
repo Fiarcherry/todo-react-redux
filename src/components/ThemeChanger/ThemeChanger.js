@@ -6,9 +6,12 @@ import Button from '../common/Button'
 import Input from '../common/Input'
 import Space from '../common/Space/Space'
 import Title from '../Title'
+
 import { setTheme } from '../../handlers/themeHandler'
 
 const ThemeChanger = () => {
+import fonts from '../../Themes/fonts'
+
   const [popUpActive, setPopUpActive] = useState(false)
   const [newColors, setNewColors] = useState({
     primary1: '',
@@ -28,6 +31,8 @@ const ThemeChanger = () => {
 
   const onSubmit = () => {
     setTheme(newColors)
+    const newValue = { colors: newColors, fonts: fonts.comicSans }
+
   }
 
   const onCancel = () => {

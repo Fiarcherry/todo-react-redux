@@ -1,8 +1,11 @@
 import Storage from '../utils/storage'
 import colors from '../Themes/colors'
+import fonts from '../Themes/fonts'
 
 const key = 'theme'
-const defaultValue = colors.purple
+const defaultColor = colors.purple
+const defaultFont = fonts.comicSans
+const defaultValue = { colors: defaultColor, fonts: defaultFont }
 
 export const getThemes = () => {
   return Object.keys(colors)
@@ -20,7 +23,8 @@ export const setTheme = (value) => {
     const themes = getThemes()
     const theme = themes.find((item) => item === value)
     if (theme) {
-      Storage.set(key, JSON.stringify(colors[value]))
+      const newValue = { colors: colors[value], fonts: defaultFont }
+      Storage.set(key, JSON.stringify(newValue))
     }
   }
 }
