@@ -12,7 +12,7 @@ import {
   onTodoToggleImportant,
 } from '../../handlers/todoHandler'
 
-const TodoList = ({ filterData, query, onTodosChange }) => {
+const TodoList = ({ todos, filterData, query, onTodosChange }) => {
   const [todoData, setTodoData] = useState(getTodos())
 
   const handleTodosChange = () => {
@@ -35,7 +35,24 @@ const TodoList = ({ filterData, query, onTodosChange }) => {
   }
 
   useEffect(() => {
+    console.log('useTodo')
+
+    const handleChange = (e) => {
+      console.log('channel useTodo', e.data)
+      onTodosChange()
+    }
+
     onTodosChange()
+
+    const channel = new BroadcastChannel('todo')
+    channel.postMessage('test')
+
+    channel.addEventListener('message', (e) => handleChange(e))
+
+    return () => {
+      channel.removeEventListener('message', handleChange)
+      channel.close()
+    }
   }, [todoData, onTodosChange])
 
   const calcSortOrder = (valueDone, valueImportant) => {
@@ -55,7 +72,6 @@ const TodoList = ({ filterData, query, onTodosChange }) => {
         return aValue > bValue ? 1 : -1
       }
     })
-
     return items
   }
 
@@ -82,7 +98,7 @@ const TodoList = ({ filterData, query, onTodosChange }) => {
     }
   }
 
-  const visibleItems = sort(search(filter(todoData, filterData), query))
+  const visibleItems = sort(search(filter(todos, filterData), query))
 
   const elements = visibleItems.map((item, index) => {
     const { id, ...itemProps } = item

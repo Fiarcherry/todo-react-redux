@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 
+import { addTodo } from '../../handlers/todoHandler'
+
 import Button from '../common/Button'
 import Container from '../common/Container'
 import Form from '../common/Form'
 import Input from '../common/Input'
 
-const ItemAddForm = ({ onItemAdded }) => {
+const ItemAddForm = ({ onTodosChange }) => {
   const [label, setLabel] = useState('')
 
   const onLabelChange = (e) => {
@@ -14,7 +16,14 @@ const ItemAddForm = ({ onItemAdded }) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    onItemAdded(label)
+
+    addTodo(label)
+    onTodosChange()
+
+    const channel = new BroadcastChannel('todo')
+    channel.postMessage('test')
+    channel.close()
+
     setLabel('')
   }
 
@@ -24,7 +33,7 @@ const ItemAddForm = ({ onItemAdded }) => {
     <Container justifyContent="center">
       <Form onSubmit={onSubmit} flex>
         <Input
-          onChange={onLabelChange}
+          onChange={(e) => onLabelChange(e)}
           placeholder="What needs to be done"
           value={label}
           styles={inputStyles}

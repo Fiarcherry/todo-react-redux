@@ -7,17 +7,13 @@ import { getTheme, getThemes, setTheme } from '../../handlers/themeHandler'
 
 const ThemeSelector = ({ onThemeChange }) => {
   const [themeData, setThemeData] = useState(getTheme())
-  console.log('themeComponentData', themeData)
 
   const handleThemeChange = (theme) => {
     setThemeData(theme)
   }
 
   useEffect(() => {
-    console.log('useTheme')
-
-    const handleChange = (e) => {
-      console.log('channel', e.data)
+    const handleChange = () => {
       onThemeChange()
     }
 
@@ -27,7 +23,7 @@ const ThemeSelector = ({ onThemeChange }) => {
     const channel = new BroadcastChannel('theme')
     channel.postMessage('test')
 
-    channel.addEventListener('message', (e) => handleChange(e))
+    channel.addEventListener('message', () => handleChange())
 
     return () => {
       channel.removeEventListener('message', handleChange)

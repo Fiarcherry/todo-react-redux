@@ -11,7 +11,6 @@ const ItemStatusFilter = ({ onFilterChange }) => {
   const [filterData, setFilterData] = useState(getFilter())
 
   const handleFilterChange = (value) => {
-    //console.log('handle')
     setFilter(value)
     setFilterData(value)
   }

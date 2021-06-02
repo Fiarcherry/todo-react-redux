@@ -9,9 +9,9 @@ import Title from '../Title'
 
 import { setTheme } from '../../handlers/themeHandler'
 
-const ThemeChanger = () => {
 import fonts from '../../Themes/fonts'
 
+const ThemeChanger = ({ onThemeChange }) => {
   const [popUpActive, setPopUpActive] = useState(false)
   const [newColors, setNewColors] = useState({
     primary1: '',
@@ -26,17 +26,20 @@ import fonts from '../../Themes/fonts'
   }
 
   useEffect(() => {
-    //console.log(newColors)
   }, [newColors])
 
   const onSubmit = () => {
-    setTheme(newColors)
     const newValue = { colors: newColors, fonts: fonts.comicSans }
 
+    setTheme(newValue)
+    onThemeChange()
+
+    const channel = new BroadcastChannel('theme')
+    channel.postMessage('test')
+    channel.close()
   }
 
   const onCancel = () => {
-    //console.log('click')
     setPopUpActive(false)
   }
 
