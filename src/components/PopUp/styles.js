@@ -4,7 +4,6 @@ const StyledPopUp = styled.div`
   width: 100%;
   min-width: 250px;
   min-height: 100%;
-  overflow: hidden;
   position: fixed;
   top: 0px;
   right: 0px;
