@@ -25,7 +25,7 @@ library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 const App = () => {
   const [query, setQuery] = useState('')
 
-  const onSearchChange = useCallback(
+  const onQueryChange = useCallback(
     (query) => {
       setQuery(query)
     },
@@ -36,9 +36,8 @@ const App = () => {
     <Theme>
       <Wrapper>
         <AppHeader />
-        <ThemeSelector />
         <ThemeChanger />
-        <SearchPanel onSearchChange={onSearchChange} />
+        <SearchPanel onQueryChange={onQueryChange} />
         <ItemStatusFilter />
         <TodoList query={query} />
         <ItemAddForm />

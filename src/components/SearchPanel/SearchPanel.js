@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Container from '../common/Container'
 import Input from '../common/Input'
 
-const SearchPanel = ({ onSearchChange }) => {
+const SearchPanel = ({ onQueryChange }) => {
   const [query, setQuery] = useState('')
 
   const handleQueryChange = (e) => {
@@ -11,8 +11,8 @@ const SearchPanel = ({ onSearchChange }) => {
   }
 
   useEffect(() => {
-    onSearchChange(query)
-  }, [query, onSearchChange])
+    onQueryChange(query)
+  }, [query, onQueryChange])
 
   const inputStyles = { margin: '0 0 20px 0', padding: '10px 20px' }
 
