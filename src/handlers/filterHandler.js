@@ -1,11 +1,11 @@
 import Storage from '../utils/storage'
-import filters from '../assets/filters'
+import filterTypes from '../utils/filterTypes'
 
 const key = 'filter'
 const defaultValue = 0
 
 export const getFilters = () => {
-  return filters
+  return filterTypes
 }
 
 export const getFilter = () => {
@@ -17,14 +17,14 @@ export const setFilter = (theme) => {
 }
 
 const tryParseString = (string) => {
-  const indexFilter = filters.findIndex((item) => item === string)
+  const indexFilter = filterTypes.findIndex((item) => item === string)
 
   if (indexFilter !== -1) {
-    return filters[indexFilter]
+    return filterTypes[indexFilter]
   }
 
-  const newFilter = filters[defaultValue]
+  const newFilter = filterTypes[defaultValue]
 
   setFilter(newFilter)
-  return filters[newFilter]
+  return filterTypes[newFilter]
 }

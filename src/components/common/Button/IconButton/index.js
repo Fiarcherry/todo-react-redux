@@ -1,4 +1,4 @@
-import withButtonStyle from '../../../../hocs/withButtonStyle'
+import withButtonStyle from '../../../../utils/hocs/withButtonStyle'
 import Button from '../index'
 
 const IconButton = (props) => {
