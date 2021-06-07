@@ -11,7 +11,15 @@ import { actionSetTheme } from '../../redux/actions/themeActions'
 import colors from '../../utils/Theme/colors'
 import fonts from '../../utils/Theme/fonts'
 
-const ThemeSelector = ({ theme, dispatchSetTheme }) => {
+const ThemeSelector = ({ theme, dispatchSetTheme, onThemeChange }) => {
+  const handleThemeChange = (item) => {
+    dispatchSetTheme(item)
+  }
+
+  useEffect(() => {
+    onThemeChange()
+  }, [theme, onThemeChange])
+
   const elements = getColors().map((item, index) => {
     const isActive = theme.colors.name === item
     const title = _.capitalize(item)
@@ -20,7 +28,7 @@ const ThemeSelector = ({ theme, dispatchSetTheme }) => {
         key={index}
         isActive={isActive}
         title={title}
-        onClick={() => isActive || dispatchSetTheme(item)}
+        onClick={() => isActive || handleThemeChange(item)}
       />
     )
   })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import Container from '../common/Container'
 import PopUp from '../PopUp/PopUp'
@@ -13,37 +13,48 @@ import fonts from '../../utils/Theme/fonts'
 import _ from 'lodash'
 import { actionSetTheme } from '../../redux/actions/themeActions'
 import { connect } from 'react-redux'
+import ThemeSelector from '../ThemeSelector/ThemeSelector'
 
 const ThemeChanger = ({ theme, dispatchSetTheme }) => {
-  const InitialState = {
-    name: 'custom',
-    primary1: theme.colors.primary1,
-    primary2: theme.colors.primary2,
-    primary3: theme.colors.primary3,
-    primary4: theme.colors.primary4,
-    primary5: theme.colors.primary5,
-  }
+  const InitialState = useMemo(
+    () => ({
+      name: 'custom',
+      primary1: theme.colors.primary1,
+      primary2: theme.colors.primary2,
+      primary3: theme.colors.primary3,
+      primary4: theme.colors.primary4,
+      primary5: theme.colors.primary5,
+    }),
+    [theme.colors]
+  )
 
   const [popUpActive, setPopUpActive] = useState(false)
   const [newColors, setNewColors] = useState(InitialState)
+  const [prevColors, setPrevColors] = useState(InitialState)
 
   const onPrimaryChange = (e, key) => {
     setNewColors({ ...newColors, [key]: e.target.value })
   }
 
-  const onOpen = () => {
+  const onThemeChange = useCallback(() => {
     setNewColors(InitialState)
+  }, [setNewColors, InitialState])
+
+  const handleOpen = () => {
+    setPrevColors(InitialState)
 
     setPopUpActive(true)
   }
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     dispatchSetTheme(newColors)
 
     setPopUpActive(false)
   }
 
-  const onCancel = () => {
+  const handleCancel = () => {
+    dispatchSetTheme(prevColors)
+
     setPopUpActive(false)
   }
 
@@ -71,17 +82,22 @@ const ThemeChanger = ({ theme, dispatchSetTheme }) => {
 
   return (
     <Container>
-      <Button title="Сменить тему" onClick={onOpen} />
+      <Button title="Сменить тему" onClick={handleOpen} />
       <PopUp active={popUpActive} setActive={setPopUpActive}>
+        <Container>
+          <Title text="Themes" />
+        </Container>
+        <Space />
+        <ThemeSelector onThemeChange={onThemeChange} />
+        <Space />
         <Container>
           <Title text="Color Pallette" />
         </Container>
-        <Space />
         <Container flexDirection="column">{inputElements}</Container>
         <Space />
         <Container justifyContent="space-around">
-          <Button title="Confirm" onClick={onSubmit} />
-          <Button title="Cancel" onClick={onCancel} />
+          <Button title="Confirm" onClick={handleSubmit} />
+          <Button title="Cancel" onClick={handleCancel} />
         </Container>
       </PopUp>
     </Container>
