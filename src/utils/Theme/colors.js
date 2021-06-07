@@ -1,4 +1,5 @@
 export const purple = {
+  name: 'purple',
   primary1: '#9696DC',
   primary2: '#BEBEF0',
   primary3: '#E6E6FA',
@@ -7,6 +8,7 @@ export const purple = {
 }
 
 export const green = {
+  name: 'green',
   primary1: '#89C783',
   primary2: '#B3E3AC',
   primary3: '#E6FAE3',
@@ -15,6 +17,7 @@ export const green = {
 }
 
 export const orange = {
+  name: 'orange',
   primary1: '#E0B162',
   primary2: '#EED5AA',
   primary3: '#F5EADB',
