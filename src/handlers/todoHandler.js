@@ -80,6 +80,12 @@ const tryParseJSON = (string) => {
   return defaultValue
 }
 
+export const findMaxTodoId = () => {
+  const data = getTodos()
+
+  return findMaxId(data)
+}
+
 const findMaxId = (arrayOfObjects) => {
   return arrayOfObjects
     .map((item) => item.id)

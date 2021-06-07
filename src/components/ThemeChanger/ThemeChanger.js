@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Container from '../common/Container'
 import PopUp from '../PopUp/PopUp'
@@ -9,34 +9,38 @@ import Title from '../Title'
 
 import { setTheme } from '../../handlers/themeHandler'
 
-import fonts from '../../Themes/fonts'
+import fonts from '../../utils/Theme/fonts'
+import _ from 'lodash'
+import { actionSetTheme } from '../../redux/actions/themeActions'
+import { connect } from 'react-redux'
 
-const ThemeChanger = ({ onThemeChange }) => {
+const ThemeChanger = ({ theme, dispatchSetTheme }) => {
+  const InitialState = {
+    name: 'custom',
+    primary1: theme.colors.primary1,
+    primary2: theme.colors.primary2,
+    primary3: theme.colors.primary3,
+    primary4: theme.colors.primary4,
+    primary5: theme.colors.primary5,
+  }
+
   const [popUpActive, setPopUpActive] = useState(false)
-  const [newColors, setNewColors] = useState({
-    primary1: '',
-    primary2: '',
-    primary3: '',
-    primary4: '',
-    primary5: '',
-  })
+  const [newColors, setNewColors] = useState(InitialState)
 
   const onPrimaryChange = (e, key) => {
     setNewColors({ ...newColors, [key]: e.target.value })
   }
 
-  useEffect(() => {
-  }, [newColors])
+  const onOpen = () => {
+    setNewColors(InitialState)
+
+    setPopUpActive(true)
+  }
 
   const onSubmit = () => {
-    const newValue = { colors: newColors, fonts: fonts.comicSans }
+    dispatchSetTheme(newColors)
 
-    setTheme(newValue)
-    onThemeChange()
-
-    const channel = new BroadcastChannel('theme')
-    channel.postMessage('test')
-    channel.close()
+    setPopUpActive(false)
   }
 
   const onCancel = () => {
@@ -45,41 +49,35 @@ const ThemeChanger = ({ onThemeChange }) => {
 
   const inputStyles = { margin: '8px auto', padding: '2px 5px' }
 
+  const inputsArray = Object.keys(newColors).filter((name) =>
+    name.includes('primary')
+  )
+
+  const inputElements = inputsArray.map((item, index) => {
+    const placeholder = `${_.join(
+      _.slice(_.capitalize(item), 0, item.length - 1),
+      ''
+    )} ${_.last(item)}`
+    return (
+      <Input
+        key={index}
+        placeholder={placeholder}
+        value={newColors[item]}
+        styles={inputStyles}
+        onChange={(e) => onPrimaryChange(e, item)}
+      />
+    )
+  })
+
   return (
     <Container>
-      <Button title="Сменить тему" onClick={() => setPopUpActive(true)} />
+      <Button title="Сменить тему" onClick={onOpen} />
       <PopUp active={popUpActive} setActive={setPopUpActive}>
         <Container>
           <Title text="Color Pallette" />
         </Container>
         <Space />
-        <Container flexDirection="column">
-          <Input
-            placeholder="Primary 1"
-            styles={inputStyles}
-            onChange={(e) => onPrimaryChange(e, 'primary1')}
-          />
-          <Input
-            placeholder="Primary 2"
-            styles={inputStyles}
-            onChange={(e) => onPrimaryChange(e, 'primary2')}
-          />
-          <Input
-            placeholder="Primary 3"
-            styles={inputStyles}
-            onChange={(e) => onPrimaryChange(e, 'primary3')}
-          />
-          <Input
-            placeholder="Primary 4"
-            styles={inputStyles}
-            onChange={(e) => onPrimaryChange(e, 'primary4')}
-          />
-          <Input
-            placeholder="Primary 5"
-            styles={inputStyles}
-            onChange={(e) => onPrimaryChange(e, 'primary5')}
-          />
-        </Container>
+        <Container flexDirection="column">{inputElements}</Container>
         <Space />
         <Container justifyContent="space-around">
           <Button title="Confirm" onClick={onSubmit} />
@@ -90,4 +88,21 @@ const ThemeChanger = ({ onThemeChange }) => {
   )
 }
 
-export default ThemeChanger
+const mapStateToProps = ({ theme }) => ({ theme })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetTheme: (value) => {
+      for (const key in value) {
+        if (Object.hasOwnProperty.call(value, key)) {
+          if (value[key] === '') value[key] = '#000'
+        }
+      }
+      const newValue = { colors: value, fonts: fonts.comicSans }
+      dispatch(actionSetTheme(newValue))
+      setTheme(newValue)
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeChanger)

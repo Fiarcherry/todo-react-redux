@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
-import { addTodo } from '../../handlers/todoHandler'
+import { addTodo, findMaxTodoId } from '../../handlers/todoHandler'
+import { actionAddTodo } from '../../redux/actions/todoActions'
 
 import Button from '../common/Button'
 import Container from '../common/Container'
 import Form from '../common/Form'
 import Input from '../common/Input'
 
-const ItemAddForm = ({ onTodosChange }) => {
+const ItemAddForm = ({ dispatchAddTodo }) => {
   const [label, setLabel] = useState('')
 
   const onLabelChange = (e) => {
@@ -17,12 +19,7 @@ const ItemAddForm = ({ onTodosChange }) => {
   const onSubmit = (e) => {
     e.preventDefault()
 
-    addTodo(label)
-    onTodosChange()
-
-    const channel = new BroadcastChannel('todo')
-    channel.postMessage('test')
-    channel.close()
+    dispatchAddTodo(label)
 
     setLabel('')
   }
@@ -44,4 +41,15 @@ const ItemAddForm = ({ onTodosChange }) => {
   )
 }
 
-export default ItemAddForm
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddTodo: (value) => {
+      const maxId = findMaxTodoId()
+      const nextId = maxId + 1
+      dispatch(actionAddTodo(nextId, value))
+      addTodo(value)
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ItemAddForm)

@@ -1,0 +1,8 @@
+export const SET_FILTER = 'SET_FILTER'
+
+export const SET_THEME = 'SET_THEME'
+
+export const ADD_TODO = 'ADD_TODO'
+export const TOGGLE_IMPORTANT_TODO = 'TOGGLE_IMPORTANT_TODO'
+export const TOGGLE_DONE_TODO = 'TOGGLE_DONE_TODO'
+export const DELETE_TODO = 'DELETE_TODO'

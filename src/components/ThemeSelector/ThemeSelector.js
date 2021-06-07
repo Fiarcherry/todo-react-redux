@@ -1,44 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
 import Button from '../common/Button'
 import Container from '../common/Container'
 
-import { getTheme, getThemes, setTheme } from '../../handlers/themeHandler'
+import { getColors, setTheme } from '../../handlers/themeHandler'
+import { actionSetTheme } from '../../redux/actions/themeActions'
 
-const ThemeSelector = ({ onThemeChange }) => {
-  const [themeData, setThemeData] = useState(getTheme())
+import colors from '../../utils/Theme/colors'
+import fonts from '../../utils/Theme/fonts'
 
-  const handleThemeChange = (theme) => {
-    setThemeData(theme)
-  }
-
-  useEffect(() => {
-    const handleChange = () => {
-      onThemeChange()
-    }
-
-    setTheme(themeData)
-    onThemeChange()
-
-    const channel = new BroadcastChannel('theme')
-    channel.postMessage('test')
-
-    channel.addEventListener('message', () => handleChange())
-
-    return () => {
-      channel.removeEventListener('message', handleChange)
-      channel.close()
-    }
-  }, [themeData, onThemeChange])
-
-  const elements = getThemes().map((item, index) => {
-    const title = item[0].toUpperCase() + item.slice(1)
-
+const ThemeSelector = ({ theme, dispatchSetTheme }) => {
+  const elements = getColors().map((item, index) => {
+    const isActive = theme.colors.name === item
+    const title = _.capitalize(item)
     return (
       <Button
         key={index}
+        isActive={isActive}
         title={title}
-        onClick={() => handleThemeChange(item)}
+        onClick={() => isActive || dispatchSetTheme(item)}
       />
     )
   })
@@ -46,4 +28,20 @@ const ThemeSelector = ({ onThemeChange }) => {
   return <Container justifyContent="center">{elements}</Container>
 }
 
-export default ThemeSelector
+const mapStateToProps = ({ theme }) => ({ theme })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetTheme: (value) => {
+      const themes = getColors()
+      const theme = themes.find((item) => item === value)
+      if (theme) {
+        const newValue = { colors: colors[value], fonts: fonts.comicSans }
+        dispatch(actionSetTheme(newValue))
+      }
+      setTheme(value)
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeSelector)

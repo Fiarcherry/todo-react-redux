@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import Container from '../common/Container'
 import FilterButton from '../common/Button/FilterButton'
 
-import filters from '../../assets/filters'
+import filterTypes from '../../utils/filterTypes'
+import { setFilter } from '../../handlers/filterHandler'
 
-import { getFilter, setFilter } from '../../handlers/filterHandler'
+import { actionSetFilter } from '../../redux/actions/filterActions'
 
-const ItemStatusFilter = ({ onFilterChange }) => {
-  const [filterData, setFilterData] = useState(getFilter())
-
-  const handleFilterChange = (value) => {
-    setFilter(value)
-    setFilterData(value)
-  }
-
-  useEffect(() => {
-    onFilterChange(filterData)
-  }, [filterData, onFilterChange])
-
-  const elements = filters.map((item) => {
-    const isActive = filterData === item
+const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
+  const elements = filterTypes.map((item) => {
+    const isActive = filter === item
     return (
       <FilterButton
         type="button"
         key={item}
         isActive={isActive}
-        onClick={() => handleFilterChange(item)}
+        onClick={() => isActive || dispatchSetFilter(item)}
         title={item[0].toUpperCase() + item.slice(1)}
       />
     )
@@ -35,4 +26,15 @@ const ItemStatusFilter = ({ onFilterChange }) => {
   return <Container justifyContent="center">{elements}</Container>
 }
 
-export default ItemStatusFilter
+const mapStateToProps = ({ filter }) => ({ filter })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetFilter: (value) => {
+      dispatch(actionSetFilter(value))
+      setFilter(value)
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemStatusFilter)

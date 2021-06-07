@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import TodoListItem from '../TodoListItem'
 import Container from '../common/Container'
@@ -7,54 +7,24 @@ import ListElement from '../common/ListElement'
 
 import {
   deleteTodo,
-  getTodos,
   onTodoToggleDone,
   onTodoToggleImportant,
 } from '../../handlers/todoHandler'
+import { connect } from 'react-redux'
+import {
+  actionDeleteTodo,
+  actionToggleDoneTodo,
+  actionToggleImportantTodo,
+} from '../../redux/actions/todoActions'
 
-const TodoList = ({ todos, filterData, query, onTodosChange }) => {
-  const [todoData, setTodoData] = useState(getTodos())
-
-  const handleTodosChange = () => {
-    setTodoData(getTodos())
-  }
-
-  const handleOnDeleted = (id) => {
-    deleteTodo(id)
-    handleTodosChange()
-  }
-
-  const handleToggleImportant = (id) => {
-    onTodoToggleImportant(id)
-    handleTodosChange()
-  }
-
-  const handleToggleDone = (id) => {
-    onTodoToggleDone(id)
-    handleTodosChange()
-  }
-
-  useEffect(() => {
-    console.log('useTodo')
-
-    const handleChange = (e) => {
-      console.log('channel useTodo', e.data)
-      onTodosChange()
-    }
-
-    onTodosChange()
-
-    const channel = new BroadcastChannel('todo')
-    channel.postMessage('test')
-
-    channel.addEventListener('message', (e) => handleChange(e))
-
-    return () => {
-      channel.removeEventListener('message', handleChange)
-      channel.close()
-    }
-  }, [todoData, onTodosChange])
-
+const TodoList = ({
+  todos,
+  filter,
+  query,
+  dispatchToggleImportantTodo,
+  dispatchToggleDoneTodo,
+  dispatchDeleteTodo,
+}) => {
   const calcSortOrder = (valueDone, valueImportant) => {
     const binary = `${Number(valueDone)}${Number(!valueImportant)}`
 
@@ -85,7 +55,7 @@ const TodoList = ({ todos, filterData, query, onTodosChange }) => {
     })
   }
 
-  const filter = (items, filter) => {
+  const filterTodos = (items, filter) => {
     switch (filter) {
       case 'all':
         return items
@@ -98,7 +68,7 @@ const TodoList = ({ todos, filterData, query, onTodosChange }) => {
     }
   }
 
-  const visibleItems = sort(search(filter(todos, filterData), query))
+  const visibleItems = sort(search(filterTodos([...todos], filter), query))
 
   const elements = visibleItems.map((item, index) => {
     const { id, ...itemProps } = item
@@ -108,9 +78,9 @@ const TodoList = ({ todos, filterData, query, onTodosChange }) => {
       <ListElement key={id} last={last}>
         <TodoListItem
           {...itemProps}
-          onDeleted={() => handleOnDeleted(id)}
-          onToggleImportant={() => handleToggleImportant(id)}
-          onToggleDone={() => handleToggleDone(id)}
+          onDeleted={() => dispatchDeleteTodo(id)}
+          onToggleImportant={() => dispatchToggleImportantTodo(id)}
+          onToggleDone={() => dispatchToggleDoneTodo(id)}
         />
       </ListElement>
     )
@@ -123,4 +93,23 @@ const TodoList = ({ todos, filterData, query, onTodosChange }) => {
   )
 }
 
-export default TodoList
+const mapStateToProps = ({ todos, filter }) => ({ todos, filter })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchToggleImportantTodo: (value) => {
+      dispatch(actionToggleImportantTodo(value))
+      onTodoToggleImportant(value)
+    },
+    dispatchToggleDoneTodo: (value) => {
+      dispatch(actionToggleDoneTodo(value))
+      onTodoToggleDone(value)
+    },
+    dispatchDeleteTodo: (value) => {
+      dispatch(actionDeleteTodo(value))
+      deleteTodo(value)
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

@@ -9,11 +9,7 @@ import ItemStatusFilter from '../ItemStatusFilter'
 import TodoList from '../TodoList'
 import ItemAddForm from '../ItemAddForm'
 
-import { getTodos } from '../../handlers/todoHandler'
-import { getTheme } from '../../handlers/themeHandler'
-import { getFilter } from '../../handlers/filterHandler'
-
-import Theme from '../../Themes'
+import Theme from '../../utils/Theme'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -27,23 +23,7 @@ import { faCircle } from '@fortawesome/free-regular-svg-icons'
 library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
 
 const App = () => {
-  const [todoData, setTodoData] = useState(getTodos())
-  const [filterData, setFilterData] = useState(getFilter())
-  const [themeData, setThemeData] = useState(getTheme())
   const [query, setQuery] = useState('')
-
-  const onTodosChange = useCallback(() => {
-    console.log('onTodosChange')
-    setTodoData(getTodos())
-  }, [])
-
-  const onFilterChange = useCallback(() => {
-    setFilterData(getFilter())
-  }, [])
-
-  const onThemeChange = useCallback(() => {
-    setThemeData(getTheme())
-  }, [])
 
   const onSearchChange = useCallback(
     (query) => {
@@ -52,24 +32,16 @@ const App = () => {
     [setQuery]
   )
 
-  const doneCount = todoData.filter((el) => el.done).length
-  const todoCount = todoData.length - doneCount
-
   return (
-    <Theme theme={themeData}>
+    <Theme>
       <Wrapper>
-        <AppHeader toDo={todoCount} done={doneCount} />
-        <ThemeSelector onThemeChange={onThemeChange} />
-        <ThemeChanger onThemeChange={onThemeChange} />
+        <AppHeader />
+        <ThemeSelector />
+        <ThemeChanger />
         <SearchPanel onSearchChange={onSearchChange} />
-        <ItemStatusFilter onFilterChange={onFilterChange} />
-        <TodoList
-          todos={todoData}
-          filterData={filterData}
-          query={query}
-          onTodosChange={onTodosChange}
-        />
-        <ItemAddForm onTodosChange={onTodosChange} />
+        <ItemStatusFilter />
+        <TodoList query={query} />
+        <ItemAddForm />
       </Wrapper>
     </Theme>
   )
