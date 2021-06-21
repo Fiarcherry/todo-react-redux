@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 
 import Wrapper from '../common/Wrapper'
 import AppHeader from '../AddHeader'
-import ThemeSelector from '../ThemeSelector'
 import ThemeChanger from '../ThemeChanger/ThemeChanger'
 import SearchPanel from '../SearchPanel'
 import ItemStatusFilter from '../ItemStatusFilter'
@@ -17,29 +16,31 @@ import {
   faTrashAlt,
   faCheckCircle,
   faListUl,
+  faArrowLeft,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faTrashAlt, faExclamationCircle, faCheckCircle, faListUl, faCircle)
+library.add(
+  faTrashAlt,
+  faExclamationCircle,
+  faCheckCircle,
+  faListUl,
+  faCircle,
+  faArrowLeft,
+  faArrowRight
+)
 
 const App = () => {
-  const [query, setQuery] = useState('')
-
-  const onQueryChange = useCallback(
-    (query) => {
-      setQuery(query)
-    },
-    [setQuery]
-  )
-
   return (
     <Theme>
       <Wrapper>
         <AppHeader />
+        {/* <ColorPicker /> */}
         <ThemeChanger />
-        <SearchPanel onQueryChange={onQueryChange} />
+        <SearchPanel />
         <ItemStatusFilter />
-        <TodoList query={query} />
+        <TodoList />
         <ItemAddForm />
       </Wrapper>
     </Theme>

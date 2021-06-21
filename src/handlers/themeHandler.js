@@ -18,9 +18,6 @@ export const getTheme = () => {
 
 export const setTheme = (newTheme) => {
   if (newTheme && typeof newTheme === 'object') {
-    // const newValue = { colors: value, fonts: defaultFont }
-    // console.log(value)
-    // console.log(newValue)
     Storage.set(key, JSON.stringify(newTheme))
   } else {
     const themes = getColors()
@@ -33,26 +30,6 @@ export const setTheme = (newTheme) => {
 }
 
 const tryParseJSON = (string) => {
-  // const themes = getThemes()
-  // console.log('tryParseJSON')
-
-  // const theme = themes.find((item) => item === string)
-  // console.log('theme', theme)
-
-  // if (theme) {
-  //   console.log('colors[theme]', colors[theme])
-
-  //   return colors[theme]
-  // }
-
-  // const newTheme = themes[defaultValue]
-
-  // console.log('newTheme', newTheme)
-  // console.log('colors[newTheme]', colors[newTheme])
-
-  // setTheme(newTheme)
-  // return colors[newTheme]
-
   try {
     const result = JSON.parse(string)
 

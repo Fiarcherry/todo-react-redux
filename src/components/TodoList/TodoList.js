@@ -5,6 +5,7 @@ import TodoListItem from '../TodoListItem'
 import Container from '../common/Container'
 import List from '../common/List'
 import ListElement from '../common/ListElement'
+import Pagination from '../Pagination'
 
 import { selectVisibleTodos } from '../../redux/selectors/todosSelectors'
 
@@ -24,6 +25,7 @@ const TodoList = ({ todos }) => {
   return (
     <Container flexDirection="column">
       <List>{elements}</List>
+      <Pagination />
     </Container>
   )
 }
