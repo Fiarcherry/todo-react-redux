@@ -8,7 +8,7 @@ import {
 
 const initialState = getTodos()
 
-const todosReducer = (state = initialState, action) => {
+const todosReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ADD_TODO: {
       const { id, label } = action.payload
@@ -27,7 +27,7 @@ const todosReducer = (state = initialState, action) => {
       const { id } = action.payload
 
       return state.map((todo) =>
-        todo.id === id ? { ...todo, important: !todo.important } : { ...todo }
+        todo.id === id ? { ...todo, important: !todo.important } : todo
       )
     }
     case TOGGLE_DONE_TODO: {
@@ -40,18 +40,15 @@ const todosReducer = (state = initialState, action) => {
     case DELETE_TODO: {
       const { id } = action.payload
 
-      return state.filter((todo) => todo.id !== id)
+      // return state.filter((todo) => todo.id !== id)
 
-      // const index = state.findIndex((item) => item.id === id)
+      const index = state.findIndex((item) => item.id === id)
 
-      // console.log(index)
-
-      // if (index !== -1) {
-      //   return [...state.slice(0, id), ...state.slice(id + 1)]
-      // }
-
-      // console.log('something wrong with todo delete')
-      // return state
+      if (index !== -1) {
+        return [...state.slice(0, index), ...state.slice(index + 1)]
+      }
+      return state
+    }
     }
     default:
       return state

@@ -4,7 +4,7 @@ import {
   initStateWithPrevTab,
 } from 'redux-state-sync'
 
-import loggerMiddleware from './middleware/logger'
+// import loggerMiddleware from './middleware/logger'
 import rootReducer from './reducers'
 
 const config = {}
@@ -13,7 +13,7 @@ export default function configureAppStore(preloadedState) {
   const store = configureStore({
     reducer: rootReducer,
     middleware: [
-      loggerMiddleware,
+      // loggerMiddleware,
       createStateSyncMiddleware(config),
       ...getDefaultMiddleware(),
     ],

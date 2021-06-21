@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { connect } from 'react-redux'
 
 import Container from '../common/Container'
 import Input from '../common/Input'
 
-const SearchPanel = ({ onQueryChange }) => {
-  const [query, setQuery] = useState('')
+import { actionSetQuery } from '../../redux/actions/queryActions'
 
-  const handleQueryChange = (e) => {
-    setQuery(e.target.value)
-  }
+const SearchPanel = ({ query, dispatchSetQuery }) => {
+  const inputStyles = useMemo(
+    () => ({ margin: '0 0 20px 0', padding: '10px 20px' }),
+    []
+  )
 
-  useEffect(() => {
-    onQueryChange(query)
-  }, [query, onQueryChange])
-
-  const inputStyles = { margin: '0 0 20px 0', padding: '10px 20px' }
+  const handleInputChange = useCallback(
+    (e) => {
+      dispatchSetQuery(e.target.value)
+    },
+    [dispatchSetQuery]
+  )
 
   return (
     <Container justifyContent="center">
@@ -22,11 +25,21 @@ const SearchPanel = ({ onQueryChange }) => {
         type="text"
         placeholder="type to search"
         value={query}
-        onChange={handleQueryChange}
+        onChange={handleInputChange}
         styles={inputStyles}
       />
     </Container>
   )
 }
 
-export default SearchPanel
+const mapStateToProps = ({ query }) => ({ query })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetQuery: (value) => {
+      dispatch(actionSetQuery(value))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel)

@@ -6,60 +6,13 @@ import Container from '../common/Container'
 import List from '../common/List'
 import ListElement from '../common/ListElement'
 
+import { selectVisibleTodos } from '../../redux/selectors/todosSelectors'
 
-const TodoList = ({
-  todos,
-  filter,
-  query,
-}) => {
-  const calcSortOrder = (valueDone, valueImportant) => {
-    const binary = `${Number(valueDone)}${Number(!valueImportant)}`
+const TodoList = ({ todos }) => {
+  const todosMemo = useMemo(() => todos || [], [todos])
 
-    return parseInt(binary, 2)
-  }
-
-  const sort = (items) => {
-    items.sort((a, b) => {
-      const aValue = calcSortOrder(a.done, a.important)
-      const bValue = calcSortOrder(b.done, b.important)
-
-      if (aValue === bValue) {
-        return a.label > b.label ? 1 : a.label < b.label ? -1 : 0
-      } else {
-        return aValue > bValue ? 1 : -1
-      }
-    })
-    return items
-  }
-
-  const search = (items, query) => {
-    if (query.length === 0) {
-      return items
-    }
-
-    return items.filter((item) => {
-      return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-    })
-  }
-
-  const filterTodos = (items, filter) => {
-    switch (filter) {
-      case 'all':
-        return items
-      case 'active':
-        return items.filter((item) => !item.done)
-      case 'done':
-        return items.filter((item) => item.done)
-      default:
-        return items
-    }
-  }
-
-  const visibleItems = sort(search(filterTodos([...todos], filter), query))
-
-  const elements = visibleItems.map((item, index) => {
-    const { id, ...itemProps } = item
-    const last = visibleItems.length - 1 === index
+  const elements = todosMemo.map((item) => {
+    const { id } = item
 
     return (
       <ListElement key={id}>
@@ -69,13 +22,14 @@ const TodoList = ({
   })
 
   return (
-    <Container justifyContent="center">
+    <Container flexDirection="column">
       <List>{elements}</List>
     </Container>
   )
 }
 
-const mapStateToProps = ({ todos, filter }) => ({ todos, filter })
-
+const mapStateToProps = (state) => ({
+  todos: selectVisibleTodos(state),
+})
 
 export default connect(mapStateToProps)(React.memo(TodoList))
