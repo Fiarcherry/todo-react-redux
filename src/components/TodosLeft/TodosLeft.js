@@ -1,13 +1,24 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import {
+  selectDoneTodosCount,
+  selectNotDoneTodosCount,
+} from '../../redux/selectors/todosSelectors'
 
 import { Text } from './styles'
 
-const TodosLeft = ({ toDo, done }) => {
+const TodosLeft = ({ doneCount, notDoneCount }) => {
   return (
     <Text>
-      {toDo} more to do, {done} done
+      {notDoneCount} more to do, {doneCount} done
     </Text>
   )
 }
 
-export default TodosLeft
+const mapStateToProps = (state) => ({
+  doneCount: selectDoneTodosCount(state),
+  notDoneCount: selectNotDoneTodosCount(state),
+})
+
+export default connect(mapStateToProps)(TodosLeft)

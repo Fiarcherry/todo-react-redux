@@ -11,4 +11,4 @@ const Title = ({ text, children }) => {
   )
 }
 
-export default Title
+export default React.memo(Title)
