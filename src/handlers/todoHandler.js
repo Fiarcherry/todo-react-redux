@@ -9,10 +9,6 @@ export const getTodos = () => {
   return tryParseJSON(Storage.get(key))
 }
 
-const setTodo = (data) => {
-  Storage.set(key, JSON.stringify(data))
-}
-
 export const getTodo = (id) => {
   const data = getTodos()
 
@@ -21,6 +17,10 @@ export const getTodo = (id) => {
   if (item) {
     return item
   }
+}
+
+const setTodo = (data) => {
+  Storage.set(key, JSON.stringify(data))
 }
 
 export const addTodo = (text) => {
@@ -50,6 +50,10 @@ export const deleteTodo = (id) => {
 
     setTodo(newData)
   }
+}
+
+export const clearTodos = () => {
+  setTodo(defaultValue)
 }
 
 const toggleProperty = (id, propertyName) => {

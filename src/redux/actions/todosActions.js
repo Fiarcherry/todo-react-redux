@@ -1,5 +1,6 @@
 import {
   ADD_TODO,
+  CLEAR_TODOS,
   DELETE_TODO,
   TOGGLE_DONE_TODO,
   TOGGLE_IMPORTANT_TODO,
@@ -30,5 +31,11 @@ export const actionDeleteTodo = (id) => {
   return {
     type: DELETE_TODO,
     payload: { id },
+  }
+}
+
+export const actionClearTodo = () => {
+  return {
+    type: CLEAR_TODOS,
   }
 }

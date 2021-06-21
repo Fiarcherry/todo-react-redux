@@ -1,6 +1,7 @@
 import { getTodos } from '../../handlers/todoHandler'
 import {
   ADD_TODO,
+  CLEAR_TODOS,
   DELETE_TODO,
   TOGGLE_DONE_TODO,
   TOGGLE_IMPORTANT_TODO,
@@ -49,6 +50,8 @@ const todosReducer = (state = initialState, action = {}) => {
       }
       return state
     }
+    case CLEAR_TODOS: {
+      return state.filter(() => 0 === 1)
     }
     default:
       return state
