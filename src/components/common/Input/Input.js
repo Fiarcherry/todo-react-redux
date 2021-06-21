@@ -9,6 +9,7 @@ const Input = ({
   value,
   label = 'hth',
   styles = {},
+  ...props
 }) => {
   const inputDefaultStyles = {
     flexGrow: '1',
@@ -28,9 +29,10 @@ const Input = ({
       onChange={onChange}
       value={value}
       label={label}
+      {...props}
       {...allStyles}
     ></StyledInput>
   )
 }
 
-export default Input
+export default React.memo(Input)

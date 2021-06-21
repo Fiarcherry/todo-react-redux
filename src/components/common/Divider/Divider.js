@@ -6,4 +6,4 @@ const Divider = () => {
   return <StyledDivider></StyledDivider>
 }
 
-export default Divider
+export default React.memo(Divider)
