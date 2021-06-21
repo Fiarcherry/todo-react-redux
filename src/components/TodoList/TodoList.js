@@ -1,29 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { connect } from 'react-redux'
 
 import TodoListItem from '../TodoListItem'
 import Container from '../common/Container'
 import List from '../common/List'
 import ListElement from '../common/ListElement'
 
-import {
-  deleteTodo,
-  onTodoToggleDone,
-  onTodoToggleImportant,
-} from '../../handlers/todoHandler'
-import { connect } from 'react-redux'
-import {
-  actionDeleteTodo,
-  actionToggleDoneTodo,
-  actionToggleImportantTodo,
-} from '../../redux/actions/todoActions'
 
 const TodoList = ({
   todos,
   filter,
   query,
-  dispatchToggleImportantTodo,
-  dispatchToggleDoneTodo,
-  dispatchDeleteTodo,
 }) => {
   const calcSortOrder = (valueDone, valueImportant) => {
     const binary = `${Number(valueDone)}${Number(!valueImportant)}`
@@ -75,13 +62,8 @@ const TodoList = ({
     const last = visibleItems.length - 1 === index
 
     return (
-      <ListElement key={id} last={last}>
-        <TodoListItem
-          {...itemProps}
-          onDeleted={() => dispatchDeleteTodo(id)}
-          onToggleImportant={() => dispatchToggleImportantTodo(id)}
-          onToggleDone={() => dispatchToggleDoneTodo(id)}
-        />
+      <ListElement key={id}>
+        <TodoListItem {...item} />
       </ListElement>
     )
   })
@@ -95,21 +77,5 @@ const TodoList = ({
 
 const mapStateToProps = ({ todos, filter }) => ({ todos, filter })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchToggleImportantTodo: (value) => {
-      dispatch(actionToggleImportantTodo(value))
-      onTodoToggleImportant(value)
-    },
-    dispatchToggleDoneTodo: (value) => {
-      dispatch(actionToggleDoneTodo(value))
-      onTodoToggleDone(value)
-    },
-    dispatchDeleteTodo: (value) => {
-      dispatch(actionDeleteTodo(value))
-      deleteTodo(value)
-    },
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+export default connect(mapStateToProps)(React.memo(TodoList))

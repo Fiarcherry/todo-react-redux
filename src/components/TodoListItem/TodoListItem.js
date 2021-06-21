@@ -1,37 +1,90 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { connect } from 'react-redux'
 
 import IconButton from '../common/Button/IconButton'
 import CheckedButton from '../common/Button/CheckedButton'
+import Container from '../common/Container'
+
+import {
+  deleteTodo,
+  onTodoToggleDone,
+  onTodoToggleImportant,
+} from '../../handlers/todoHandler'
+import {
+  actionDeleteTodo,
+  actionToggleDoneTodo,
+  actionToggleImportantTodo,
+} from '../../redux/actions/todosActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Item, Label } from './styles'
+import { Label } from './styles'
 
 const TodoListItem = ({
+  id,
   label,
-  onDeleted,
-  onToggleImportant,
-  onToggleDone,
   done,
   important,
+  dispatchToggleImportantTodo,
+  dispatchToggleDoneTodo,
+  dispatchDeleteTodo,
 }) => {
+  const faCheckedCircle = 'check-circle'
+  const faCircle = ['far', 'circle']
+  const faDelete = 'trash-alt'
+  const faImportant = 'exclamation-circle'
+  const faSize = 'lg'
+
+  const handleDelete = useCallback(
+    () => dispatchDeleteTodo(id),
+    [id, dispatchDeleteTodo]
+  )
+
+  const handleToggleImportant = useCallback(
+    () => dispatchToggleImportantTodo(id),
+    [id, dispatchToggleImportantTodo]
+  )
+
+  const handleToggleDone = useCallback(
+    () => dispatchToggleDoneTodo(id),
+    [id, dispatchToggleDoneTodo]
+  )
+
   return (
-    <Item important={important} done={done}>
-      <CheckedButton onClick={onToggleDone}>
-        {done ? (
-          <FontAwesomeIcon icon="check-circle" size="lg" />
-        ) : (
-          <FontAwesomeIcon icon={['far', 'circle']} size="lg" />
-        )}
+    <Container>
+      <CheckedButton onClick={handleToggleDone}>
+        <FontAwesomeIcon
+          icon={done ? faCheckedCircle : faCircle}
+          size={faSize}
+        />
       </CheckedButton>
-      <Label onClick={onToggleDone}>{label}</Label>
-      <IconButton onClick={onDeleted}>
-        <FontAwesomeIcon icon="trash-alt" size="lg" />
+      <Label important={important} done={done} onClick={handleToggleDone}>
+        {label}
+      </Label>
+      <IconButton onClick={handleDelete}>
+        <FontAwesomeIcon icon={faDelete} size={faSize} />
       </IconButton>
-      <IconButton onClick={onToggleImportant}>
-        <FontAwesomeIcon icon="exclamation-circle" size="lg" />
+      <IconButton onClick={handleToggleImportant}>
+        <FontAwesomeIcon icon={faImportant} size={faSize} />
       </IconButton>
-    </Item>
+    </Container>
   )
 }
 
-export default TodoListItem
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchToggleImportantTodo: (value) => {
+      dispatch(actionToggleImportantTodo(value))
+      onTodoToggleImportant(value)
+    },
+    dispatchToggleDoneTodo: (value) => {
+      dispatch(actionToggleDoneTodo(value))
+      onTodoToggleDone(value)
+    },
+    dispatchDeleteTodo: (value) => {
+      dispatch(actionDeleteTodo(value))
+      deleteTodo(value)
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoListItem)

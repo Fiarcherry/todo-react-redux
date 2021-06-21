@@ -1,5 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { connect } from 'react-redux'
 
+import { SketchPicker } from 'react-color'
+import ThemeSelector from '../ThemeSelector/ThemeSelector'
 import Container from '../common/Container'
 import PopUp from '../PopUp/PopUp'
 import Button from '../common/Button'
@@ -8,74 +11,110 @@ import Space from '../common/Space/Space'
 import Title from '../Title'
 
 import { setTheme } from '../../handlers/themeHandler'
+import { actionSetTheme } from '../../redux/actions/themeActions'
 
 import fonts from '../../utils/Theme/fonts'
 import _ from 'lodash'
-import { actionSetTheme } from '../../redux/actions/themeActions'
-import { connect } from 'react-redux'
-import ThemeSelector from '../ThemeSelector/ThemeSelector'
 
-const ThemeChanger = ({ theme, dispatchSetTheme }) => {
-  const InitialState = useMemo(
-    () => ({
-      name: 'custom',
-      primary1: theme.colors.primary1,
-      primary2: theme.colors.primary2,
-      primary3: theme.colors.primary3,
-      primary4: theme.colors.primary4,
-      primary5: theme.colors.primary5,
-    }),
-    [theme.colors]
+const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
+  const [popUpActive, setPopUpActive] = useState(false)
+  const [prevColors, setPrevColors] = useState(theme.colors)
+  const [newColors, setNewColors] = useState(theme.colors)
+  const [primaryFocus, setPrimaryFocus] = useState('')
+  const [colorPicker, setColorPicker] = useState('#fff')
+
+  const handleFocus = useCallback(
+    (e) => {
+      if (popUpActive) {
+        setPrimaryFocus(e.target.name)
+        setColorPicker(e.target.value)
+      }
+    },
+    [popUpActive]
   )
 
-  const [popUpActive, setPopUpActive] = useState(false)
-  const [newColors, setNewColors] = useState(InitialState)
-  const [prevColors, setPrevColors] = useState(InitialState)
 
-  const onPrimaryChange = (e, key) => {
-    setNewColors({ ...newColors, [key]: e.target.value })
-  }
+  const handleInputChange = useCallback(
+    (e) => {
+      const key = e.target.name
+      const value = e.target.value
 
-  const onThemeChange = useCallback(() => {
-    setNewColors(InitialState)
-  }, [setNewColors, InitialState])
+      if (key !== '') {
+        setNewColors({ ...newColors, name: 'custom', [key]: value })
+      }
+    },
+    [newColors]
+  )
 
-  const handleOpen = () => {
-    setPrevColors(InitialState)
+  const handleColorPickerChange = useCallback(
+    (e) => {
+      const color = e.hex
+
+      if (colorPicker !== color) {
+        setColorPicker(color)
+      }
+      if (primaryFocus !== '') {
+        setNewColors({ ...newColors, name: 'custom', [primaryFocus]: color })
+      }
+    },
+    [colorPicker, newColors, primaryFocus]
+  )
+
+
+  useEffect(() => {
+    setNewColors(theme.colors)
+  }, [theme.colors])
+
+  useEffect(() => {
+    setNewColors(newColors)
+    dispatchSetTheme(newColors)
+  }, [newColors, dispatchSetTheme])
+
+  useEffect(() => {
+    setPrimaryFocus(primaryFocus)
+  }, [primaryFocus])
+
+  useEffect(() => {
+    setColorPicker(colorPicker)
+  }, [colorPicker])
+
+  const handleOpen = useCallback(() => {
+    setPrevColors(theme.colors)
+
+    setPrimaryFocus('')
 
     setPopUpActive(true)
-  }
+  }, [theme.colors])
 
-  const handleSubmit = () => {
-    dispatchSetTheme(newColors)
-
-    setPopUpActive(false)
-  }
-
-  const handleCancel = () => {
-    dispatchSetTheme(prevColors)
+  const handleClose = (colors) => {
+    dispatchSetTheme(colors)
+    saveSetTheme(colors)
 
     setPopUpActive(false)
   }
 
-  const inputStyles = { margin: '8px auto', padding: '2px 5px' }
+  const inputStyles = useMemo(
+    () => ({ margin: '8px auto', padding: '2px 5px' }),
+    []
+  )
 
   const inputsArray = Object.keys(newColors).filter((name) =>
     name.includes('primary')
   )
 
   const inputElements = inputsArray.map((item, index) => {
-    const placeholder = `${_.join(
-      _.slice(_.capitalize(item), 0, item.length - 1),
-      ''
-    )} ${_.last(item)}`
+    const placeholder = _.startCase(item)
     return (
       <Input
         key={index}
+        name={item}
+        autoFocus={index === 0 ? true : false}
+        onFocus={handleFocus}
         placeholder={placeholder}
         value={newColors[item]}
+        color={newColors[item]}
         styles={inputStyles}
-        onChange={(e) => onPrimaryChange(e, item)}
+        onChange={handleInputChange}
       />
     )
   })
@@ -84,20 +123,21 @@ const ThemeChanger = ({ theme, dispatchSetTheme }) => {
     <Container>
       <Button title="Сменить тему" onClick={handleOpen} />
       <PopUp active={popUpActive} setActive={setPopUpActive}>
-        <Container>
-          <Title text="Themes" />
+        <Title text="Themes" />
+        <ThemeSelector />
+        <Title text="Color Pallette" />
+        <Container justifyContent="center">
+          <Container flexDirection="column">{inputElements}</Container>
+          <Space />
+          <SketchPicker
+            color={colorPicker}
+            onChange={handleColorPickerChange}
+          />
         </Container>
-        <Space />
-        <ThemeSelector onThemeChange={onThemeChange} />
-        <Space />
-        <Container>
-          <Title text="Color Pallette" />
-        </Container>
-        <Container flexDirection="column">{inputElements}</Container>
         <Space />
         <Container justifyContent="space-around">
-          <Button title="Confirm" onClick={handleSubmit} />
-          <Button title="Cancel" onClick={handleCancel} />
+          <Button title="Confirm" onClick={() => handleClose(newColors)} />
+          <Button title="Cancel" onClick={() => handleClose(prevColors)} />
         </Container>
       </PopUp>
     </Container>
@@ -116,6 +156,14 @@ const mapDispatchToProps = (dispatch) => {
       }
       const newValue = { colors: value, fonts: fonts.comicSans }
       dispatch(actionSetTheme(newValue))
+    },
+    saveSetTheme: (value) => {
+      for (const key in value) {
+        if (Object.hasOwnProperty.call(value, key)) {
+          if (value[key] === '') value[key] = '#000'
+        }
+      }
+      const newValue = { colors: value, fonts: fonts.comicSans }
       setTheme(newValue)
     },
   }
