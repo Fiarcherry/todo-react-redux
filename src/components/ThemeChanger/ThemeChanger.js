@@ -33,6 +33,10 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     [popUpActive]
   )
 
+  // const onBlur = () => {
+  //   console.log('no focus')
+  //   setPrimaryFocus('')
+  // }
 
   const handleInputChange = useCallback(
     (e) => {
@@ -60,6 +64,9 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     [colorPicker, newColors, primaryFocus]
   )
 
+  // if(newStateKeyValue !== this.state.stateKey){
+  //   this.setState({{stateKey: newStateKeyValue}})
+  // }
 
   useEffect(() => {
     setNewColors(theme.colors)
@@ -110,6 +117,7 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
         name={item}
         autoFocus={index === 0 ? true : false}
         onFocus={handleFocus}
+        // onBlur={() => !popUpActive && onBlur()}
         placeholder={placeholder}
         value={newColors[item]}
         color={newColors[item]}

@@ -4,6 +4,7 @@ import { GlobalStyle } from '../App/styles'
 import { StyledPopUp, StyledPopUpContent } from './styles'
 
 const PopUp = ({ active = true, setActive, children }) => {
+  //const [active, setActive] = useState(true)
 
   return (
     <React.Fragment>
