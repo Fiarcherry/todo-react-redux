@@ -1,8 +1,11 @@
+import React from 'react'
+
 import withButtonStyle from '../../../../utils/hocs/withButtonStyle'
 import Button from '../index'
 
 const IconButton = (props) => {
-  return <div>{withButtonStyle('icon', { ...props })(Button)}</div>
+  const type = 'icon'
+  return <div>{withButtonStyle(type, { ...props })(Button)}</div>
 }
 
 export default IconButton
