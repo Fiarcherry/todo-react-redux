@@ -7,6 +7,8 @@ import {
 // import loggerMiddleware from './middleware/logger'
 import rootReducer from './reducers'
 
+import seeder from '../utils/seeder/seeder'
+
 const config = {}
 
 export default function configureAppStore(preloadedState) {
@@ -25,6 +27,8 @@ export default function configureAppStore(preloadedState) {
   }
 
   initStateWithPrevTab(store)
+
+  seeder(store)
 
   return store
 }
