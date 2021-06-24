@@ -38,11 +38,15 @@ const Pagination = ({
   let elements = []
 
   const addPage = (page) => {
+    const isActive = active === page
+
+    // const handleOnClick = () => dispatchSetPage(page)
+
     elements.push(
       <StyledPage
         key={page}
-        isActive={active === page}
-        onClick={() => active === page || dispatchSetPage(page)}
+        isActive={isActive}
+        onClick={() => dispatchSetPage(page)}
       >
         {page + 1}
       </StyledPage>

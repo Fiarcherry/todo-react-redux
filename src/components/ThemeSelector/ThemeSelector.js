@@ -16,14 +16,14 @@ const ThemeSelector = ({ theme, dispatchSetTheme }) => {
     const isActive = theme.colors.name === item
     const title = _.capitalize(item)
 
-    const handleOnClick = () => isActive || dispatchSetTheme(item)
+    // const handleOnClick = () => dispatchSetTheme(item)
 
     return (
       <Button
         key={index}
         isActive={isActive}
         title={title}
-        onClick={handleOnClick}
+        onClick={() => dispatchSetTheme(item)}
       />
     )
   })

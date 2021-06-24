@@ -11,21 +11,27 @@ import { actionSetFilter } from '../../redux/actions/filterActions'
 import _ from 'lodash'
 
 const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
-  const elements = filterTypes.map((item) => {
-    const isActive = filter === item
-
-    return (
-      <FilterButton
-        type="button"
-        key={item}
-        isActive={isActive}
-        onClick={() => isActive || dispatchSetFilter(item)}
-        title={_.startCase(item)}
-      />
-    )
-  })
 
   return <Container justifyContent="center">{elements}</Container>
+  const elements = useMemo(
+    () =>
+      filterTypes.map((item) => {
+        const isActive = filter === item
+
+        // const handleOnClick = () => dispatchSetFilter(item)
+
+        return (
+          <FilterButton
+            type="button"
+            key={item}
+            isActive={isActive}
+            onClick={() => dispatchSetFilter(item)}
+            title={_.startCase(item)}
+          />
+        )
+      }),
+    [filter, dispatchSetFilter]
+  )
 }
 
 const mapStateToProps = ({ filter }) => ({ filter })
