@@ -49,7 +49,11 @@ const Button = ({
 
     default:
       return (
-        <StyledButton isActive={isActive} onClick={onClick} {...props}>
+        <StyledButton
+          isActive={isActive}
+          onClick={handleIsActiveClick}
+          {...props}
+        >
           {title}
           {children}
         </StyledButton>
