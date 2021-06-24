@@ -7,12 +7,15 @@ import List from '../common/List'
 import ListElement from '../common/ListElement'
 import Pagination from '../Pagination'
 
-import { selectVisibleTodos } from '../../redux/selectors/todosSelectors'
+import {
+  selectPagesCount,
+  selectVisibleTodos,
+} from '../../redux/selectors/todosSelectors'
 
 // import _ from 'lodash'
 
-const TodoList = ({ todos }) => {
-  const todosMemo = useMemo(() => todos || [], [todos])
+const TodoList = ({ todos, pagesCount }) => {
+  // const todosMemo = useMemo(() => todos || [], [todos])
 
   // const itemsPerPage = 10
   // const pagesCount = calcPagesCount(todosMemo.length, itemsPerPage)
@@ -35,7 +38,7 @@ const TodoList = ({ todos }) => {
   //   }
   // }
 
-  const elements = todosMemo.map((item) => {
+  const elements = todos.map((item) => {
     const { id } = item
 
     return (
@@ -45,16 +48,22 @@ const TodoList = ({ todos }) => {
     )
   })
 
+  const containerStyles = useMemo(
+    () => ({ flexDirection: 'column', alignItems: 'stretch' }),
+    []
+  )
+
   return (
-    <Container flexDirection="column">
+    <Container styles={containerStyles}>
       <List>{elements}</List>
-      <Pagination />
+      {pagesCount > 1 ? <Pagination pagesCount={pagesCount} /> : ''}
     </Container>
   )
 }
 
 const mapStateToProps = (state) => ({
   todos: selectVisibleTodos(state),
+  pagesCount: selectPagesCount(state),
 })
 
 export default connect(mapStateToProps)(React.memo(TodoList))

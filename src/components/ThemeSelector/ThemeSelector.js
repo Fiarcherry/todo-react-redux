@@ -28,7 +28,7 @@ const ThemeSelector = ({ theme, dispatchSetTheme }) => {
     )
   })
 
-  return <Container justifyContent="center">{elements}</Container>
+  return <Container>{elements}</Container>
 }
 
 const mapStateToProps = ({ theme }) => ({ theme })

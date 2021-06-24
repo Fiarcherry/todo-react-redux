@@ -1,23 +1,35 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { GlobalStyle } from '../App/styles'
 
 import { StyledPopUp, StyledPopUpContent } from './styles'
 
-const PopUp = ({ active = true, setActive, children }) => {
+const PopUp = ({
+  active = true,
+  setActive,
+  handleClose,
+  prevColors,
+  children,
+}) => {
   //const [active, setActive] = useState(true)
 
+  const handleContentClick = useCallback((e) => e.stopPropagation(), [])
+
+  const handleOutsideClick = useCallback(() => {
+    if (active !== false) {
+      handleClose(prevColors)
+      setActive(false)
+    }
+  }, [active, prevColors, setActive, handleClose])
+
   return (
-    <React.Fragment>
+    <>
       <GlobalStyle hidden={active} />
-      <StyledPopUp active={active} onClick={() => setActive(false)}>
-        <StyledPopUpContent
-          active={active}
-          onClick={(e) => e.stopPropagation()}
-        >
+      <StyledPopUp active={active} onClick={handleOutsideClick}>
+        <StyledPopUpContent active={active} onClick={handleContentClick}>
           {children}
         </StyledPopUpContent>
       </StyledPopUp>
-    </React.Fragment>
+    </>
   )
 }
 

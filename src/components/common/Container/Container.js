@@ -4,18 +4,23 @@ import { StyledContainer } from './styles'
 
 const Container = ({
   children,
-  flexDirection = 'row',
-  justifyContent = 'center',
-  alignItems = 'center',
+
+  styles = {},
   ...props
 }) => {
+  const inputDefaultStyles = {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+
+  const { ...allStyles } = {
+    ...inputDefaultStyles,
+    ...styles,
+  }
+
   return (
-    <StyledContainer
-      flexDirection={flexDirection}
-      justifyContent={justifyContent}
-      alignItems={alignItems}
-      {...props}
-    >
+    <StyledContainer {...props} {...allStyles}>
       {children}
     </StyledContainer>
   )

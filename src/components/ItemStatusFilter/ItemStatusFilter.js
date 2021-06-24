@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 
 import Container from '../common/Container'
@@ -7,12 +7,11 @@ import FilterButton from '../common/Button/FilterButton'
 import filterTypes from '../../utils/filterTypes'
 import { setFilter } from '../../handlers/filterHandler'
 import { actionSetFilter } from '../../redux/actions/filterActions'
+import { actionSetPage } from '../../redux/actions/pageActions'
 
 import _ from 'lodash'
 
 const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
-
-  return <Container justifyContent="center">{elements}</Container>
   const elements = useMemo(
     () =>
       filterTypes.map((item) => {
@@ -32,6 +31,8 @@ const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
       }),
     [filter, dispatchSetFilter]
   )
+
+  return <Container>{elements}</Container>
 }
 
 const mapStateToProps = ({ filter }) => ({ filter })
@@ -41,6 +42,8 @@ const mapDispatchToProps = (dispatch) => {
     dispatchSetFilter: (value) => {
       dispatch(actionSetFilter(value))
       setFilter(value)
+
+      dispatch(actionSetPage(0))
     },
   }
 }

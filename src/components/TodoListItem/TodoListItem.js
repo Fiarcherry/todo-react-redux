@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { connect } from 'react-redux'
 
 import IconButton from '../common/Button/IconButton'
@@ -28,11 +28,16 @@ const TodoListItem = ({
   dispatchToggleDoneTodo,
   dispatchDeleteTodo,
 }) => {
-  const faCheckedCircle = 'check-circle'
-  const faCircle = ['far', 'circle']
-  const faDelete = 'trash-alt'
-  const faImportant = 'exclamation-circle'
-  const faSize = 'lg'
+  const fa = useMemo(
+    () => ({
+      checkedCircle: 'check-circle',
+      circle: ['far', 'circle'],
+      delete: 'trash-alt',
+      important: 'exclamation-circle',
+      size: 'lg',
+    }),
+    []
+  )
 
   const handleDelete = useCallback(
     () => dispatchDeleteTodo(id),
@@ -53,18 +58,18 @@ const TodoListItem = ({
     <Container>
       <CheckedButton onClick={handleToggleDone}>
         <FontAwesomeIcon
-          icon={done ? faCheckedCircle : faCircle}
-          size={faSize}
+          icon={done ? fa.checkedCircle : fa.circle}
+          size={fa.size}
         />
       </CheckedButton>
       <Label important={important} done={done} onClick={handleToggleDone}>
         {label}
       </Label>
       <IconButton onClick={handleDelete}>
-        <FontAwesomeIcon icon={faDelete} size={faSize} />
+        <FontAwesomeIcon icon={fa.delete} size={fa.size} />
       </IconButton>
       <IconButton onClick={handleToggleImportant}>
-        <FontAwesomeIcon icon={faImportant} size={faSize} />
+        <FontAwesomeIcon icon={fa.important} size={fa.size} />
       </IconButton>
     </Container>
   )

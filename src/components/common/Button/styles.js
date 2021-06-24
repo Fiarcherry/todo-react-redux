@@ -5,7 +5,10 @@ const StyledButton = styled.button`
   padding: 10px 20px;
   border: none;
   background-color: ${({ theme }) => theme.colors.primary3};
-  transition: 100ms ease-in-out;
+
+  font-family: ${({ theme }) => theme.fonts.comicSans};
+  font-size: 16px;
+  
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
 
   transition: all 100ms ease-in-out;

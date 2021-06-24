@@ -93,20 +93,28 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     setPopUpActive(true)
   }, [theme.colors])
 
-  const handleClose = (colors) => {
-    dispatchSetTheme(colors)
-    saveSetTheme(colors)
+  const handleClose = useCallback(
+    (colors) => {
+      if (prevColors !== colors) {
+        saveSetTheme(colors)
+      }
 
-    setPopUpActive(false)
-  }
+      if (theme.colors !== colors) {
+        dispatchSetTheme(colors)
+      }
 
-  const inputStyles = useMemo(
-    () => ({ margin: '8px auto', padding: '2px 5px' }),
-    []
+      setPopUpActive(false)
+    },
+    [theme.colors, prevColors, dispatchSetTheme, saveSetTheme]
   )
 
   const inputsArray = Object.keys(newColors).filter((name) =>
     name.includes('primary')
+  )
+
+  const inputStyles = useMemo(
+    () => ({ margin: '8px auto', padding: '2px 5px' }),
+    []
   )
 
   const inputElements = inputsArray.map((item, index) => {
@@ -127,15 +135,27 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     )
   })
 
+  const containerInputsStyles = useMemo(() => ({ flexDirection: 'column' }), [])
+
+  const containerButtonsStyles = useMemo(
+    () => ({ justifyContent: 'space-around' }),
+    []
+  )
+
   return (
     <Container>
       <Button title="Сменить тему" onClick={handleOpen} />
-      <PopUp active={popUpActive} setActive={setPopUpActive}>
+      <PopUp
+        active={popUpActive}
+        setActive={setPopUpActive}
+        prevColors={prevColors}
+        handleClose={handleClose}
+      >
         <Title text="Themes" />
         <ThemeSelector />
         <Title text="Color Pallette" />
-        <Container justifyContent="center">
-          <Container flexDirection="column">{inputElements}</Container>
+        <Container>
+          <Container styles={containerInputsStyles}>{inputElements}</Container>
           <Space />
           <SketchPicker
             color={colorPicker}
@@ -143,7 +163,7 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
           />
         </Container>
         <Space />
-        <Container justifyContent="space-around">
+        <Container styles={containerButtonsStyles}>
           <Button title="Confirm" onClick={() => handleClose(newColors)} />
           <Button title="Cancel" onClick={() => handleClose(prevColors)} />
         </Container>

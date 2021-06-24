@@ -7,11 +7,6 @@ import Input from '../common/Input'
 import { actionSetQuery } from '../../redux/actions/queryActions'
 
 const SearchPanel = ({ query, dispatchSetQuery }) => {
-  const inputStyles = useMemo(
-    () => ({ margin: '0 0 20px 0', padding: '10px 20px' }),
-    []
-  )
-
   const handleInputChange = useCallback(
     (e) => {
       dispatchSetQuery(e.target.value)
@@ -19,8 +14,13 @@ const SearchPanel = ({ query, dispatchSetQuery }) => {
     [dispatchSetQuery]
   )
 
+  const inputStyles = useMemo(
+    () => ({ margin: '0 0 20px 0', padding: '10px 20px' }),
+    []
+  )
+
   return (
-    <Container justifyContent="center">
+    <Container>
       <Input
         type="text"
         placeholder="type to search"

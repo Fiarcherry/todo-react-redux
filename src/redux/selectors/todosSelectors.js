@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect'
 
 export const selectTodos = ({ todos }) => todos
-export const selectVisible = ({ visible }) => visible
 export const selectFilter = ({ filter }) => filter
 export const selectQuery = ({ query }) => query
 export const selectPage = ({ page }) => page
+
+export const selectItemsPerPage = () => 10
 
 export const selectDoneTodosCount = createSelector(
   selectTodos,
@@ -16,72 +17,55 @@ export const selectNotDoneTodosCount = createSelector(
   (todos) => todos.filter((item) => !item.done).length
 )
 
-export const selectFilteredTodos = createSelector(
-  [selectTodos, selectFilter],
-  ([...todos], filter) => {
-    // console.log('filter', todos)
-    switch (filter) {
-      case 'all':
-        return todos
+const selectSortedTodos = createSelector(selectTodos, ([...todos]) => {
+  const result = todos.sort((a, b) => {
+    const aValue = calcSortOrder(a.done, !a.important)
+    const bValue = calcSortOrder(b.done, !b.important)
 
-      case 'active':
-        return todos.filter((item) => !item.done)
-
-      case 'done':
-        return todos.filter((item) => item.done)
-
-      default:
-        return todos
+    if (aValue === bValue) {
+      return a.label > b.label ? 1 : a.label < b.label ? -1 : 0
+    } else {
+      return aValue > bValue ? 1 : -1
     }
+  })
+  console.log('sort', result)
+
+  return result
+})
+
+const selectFilteredTodos = createSelector(
+  [selectSortedTodos, selectFilter],
+  (todos, filter) => {
+    const result = applyFilter(todos, filter)
+    console.log('filter', result)
+
+    return result
   }
 )
 
-export const selectFilteredSearchedByQueryTodos = createSelector(
+const selectSearchedByQueryTodos = createSelector(
   [selectFilteredTodos, selectQuery],
   (todos, query) => {
-    // console.log('query', todos)
-    if (query.length === 0) {
-      return todos
-    }
+    const result = applyQuery(todos, query)
+    console.log('query', result)
 
-    return todos.filter((item) => {
-      return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-    })
+    return result
   }
 )
-
-export const selectFilteredSearchedByQuerySortedTodos = createSelector(
-  selectFilteredSearchedByQueryTodos,
-  (todos) => {
-    // console.log('sort', todos)
-    return todos.sort((a, b) => {
-      const aValue = calcSortOrder(a.done, a.important)
-      const bValue = calcSortOrder(b.done, b.important)
-
-      if (aValue === bValue) {
-        return a.label > b.label ? 1 : a.label < b.label ? -1 : 0
-      } else {
-        return aValue > bValue ? 1 : -1
-      }
-    })
-  }
-)
-
-export const selectItemsPerPage = () => 10
 
 export const selectPagesCount = createSelector(
-  [selectFilteredSearchedByQuerySortedTodos, selectItemsPerPage],
+  [selectSearchedByQueryTodos, selectItemsPerPage],
   (todos, itemsPerPage) => {
     const pagesCount = calcPagesCount(todos.length, itemsPerPage)
-    // console.log('pagesCount', pagesCount)
+    console.log('pagesCount', pagesCount)
 
     return pagesCount
   }
 )
 
-export const selectFilteredSearchedByQuerySortedOnPageTodos = createSelector(
+const selectOnPageTodos = createSelector(
   [
-    selectFilteredSearchedByQuerySortedTodos,
+    selectSearchedByQueryTodos,
     selectPagesCount,
     selectItemsPerPage,
     selectPage,
@@ -94,24 +78,55 @@ export const selectFilteredSearchedByQuerySortedOnPageTodos = createSelector(
     if (todosOnPages[page]) {
       result = todosOnPages[page].map((item) => item)
     }
-
-    // console.log('pages', result)
+    console.log('pages', result)
 
     return result
   }
 )
 
 export const selectVisibleTodos = createSelector(
-  [selectFilteredSearchedByQuerySortedOnPageTodos],
+  [selectOnPageTodos],
   (todos) => {
-    // console.log('visible', todos)
+    console.log('visible', todos)
     return todos
   }
 )
 // const visibleItems = sort(search(filterTodos([...todos], filter), query))
 
-const calcSortOrder = (valueDone, valueImportant) => {
-  return `${Number(valueDone)}${Number(!valueImportant)}`
+const applyQuery = (todos, query) => {
+  if (query.length === 0) {
+    return todos
+  }
+
+  return todos.filter((item) => {
+    return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+  })
+}
+
+const applyFilter = (todos, filter) => {
+  switch (filter) {
+    case 'all':
+      return todos
+
+    case 'active':
+      return todos.filter((item) => !item.done)
+
+    case 'done':
+      return todos.filter((item) => item.done)
+
+    default:
+      return todos
+  }
+}
+
+const calcSortOrder = (...args) => {
+  let result = ''
+
+  for (let i = 0; i < args.length; i++) {
+    result = result.concat(Number(args[i]))
+  }
+
+  return result
 }
 
 const calcPagesCount = (items, perPage) => {

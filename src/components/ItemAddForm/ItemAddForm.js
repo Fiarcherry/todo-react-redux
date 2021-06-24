@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { addTodo, findMaxTodoId } from '../../handlers/todoHandler'
-import { actionAddTodo } from '../../redux/actions/todosActions'
-
-import Button from '../common/Button'
 import Container from '../common/Container'
 import Form from '../common/Form'
 import Input from '../common/Input'
+import Button from '../common/Button'
+
+import { addTodo, findMaxTodoId } from '../../handlers/todoHandler'
+import { actionAddTodo } from '../../redux/actions/todosActions'
 
 const ItemAddForm = ({ dispatchAddTodo }) => {
   const [label, setLabel] = useState('')
@@ -30,7 +30,7 @@ const ItemAddForm = ({ dispatchAddTodo }) => {
   )
 
   return (
-    <Container justifyContent="center">
+    <Container>
       <Form onSubmit={onSubmit} flex>
         <Input
           onChange={onLabelChange}
