@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { StyledArrow, StyledPage, StyledDivider } from './styles'
 
-import _ from 'lodash'
+import range from 'lodash/range'
 
 const Pagination = ({
   active,
@@ -26,7 +26,7 @@ const Pagination = ({
     []
   )
 
-  const pages = useMemo(() => _.range(pagesCount), [pagesCount])
+  const pages = useMemo(() => range(pagesCount), [pagesCount])
 
   const firstPage = 0
   const lastPage = useMemo(() => pagesCount - 1, [pagesCount])
@@ -37,7 +37,7 @@ const Pagination = ({
     }
   }, [active, lastPage, dispatchSetPage])
 
-  const canClickPagesCount = 1
+  const canClickPagesCount = 2
   const middleFirstPage = useMemo(() => active - canClickPagesCount, [active])
   const middleLastPage = useMemo(() => active + canClickPagesCount, [active])
   const middlePagesCount = 1 + canClickPagesCount * 2
@@ -46,8 +46,6 @@ const Pagination = ({
 
   const addPage = (page) => {
     const isActive = active === page
-
-    // const handleOnClick = () => dispatchSetPage(page)
 
     elements.push(
       <StyledPage

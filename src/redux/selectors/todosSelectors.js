@@ -28,7 +28,9 @@ const selectSortedTodos = createSelector(selectTodos, ([...todos]) => {
       return aValue > bValue ? 1 : -1
     }
   })
-  console.log('sort', result)
+
+  // console.log('sort')
+  // console.log(result)
 
   return result
 })
@@ -37,7 +39,9 @@ const selectFilteredTodos = createSelector(
   [selectSortedTodos, selectFilter],
   (todos, filter) => {
     const result = applyFilter(todos, filter)
-    console.log('filter', result)
+
+    // console.log('filter')
+    // console.log(result)
 
     return result
   }
@@ -47,7 +51,9 @@ const selectSearchedByQueryTodos = createSelector(
   [selectFilteredTodos, selectQuery],
   (todos, query) => {
     const result = applyQuery(todos, query)
-    console.log('query', result)
+
+    // console.log('query')
+    // console.log(result)
 
     return result
   }
@@ -57,7 +63,9 @@ export const selectPagesCount = createSelector(
   [selectSearchedByQueryTodos, selectItemsPerPage],
   (todos, itemsPerPage) => {
     const pagesCount = calcPagesCount(todos.length, itemsPerPage)
-    console.log('pagesCount', pagesCount)
+
+    // console.log('pagesCount')
+    // console.log(pagesCount)
 
     return pagesCount
   }
@@ -78,7 +86,9 @@ const selectOnPageTodos = createSelector(
     if (todosOnPages[page]) {
       result = todosOnPages[page].map((item) => item)
     }
-    console.log('pages', result)
+
+    // console.log('pages')
+    // console.log(result)
 
     return result
   }
@@ -87,7 +97,9 @@ const selectOnPageTodos = createSelector(
 export const selectVisibleTodos = createSelector(
   [selectOnPageTodos],
   (todos) => {
-    console.log('visible', todos)
+    // console.log('visible')
+    // console.log(todos)
+
     return todos
   }
 )
@@ -144,9 +156,6 @@ const calcTodosOnPages = (todos, pagesCount, itemsPerPage) => {
   // console.log(todos.length)
   // console.log(pages)
   // console.log(itemsPerPage)
-
-  // const itemsLeft = pagesCount * itemsPerPage - todos.length
-  // console.log('itemsLeft', itemsLeft)
 
   for (let i = 0; i < pagesCount; i++) {
     let itemsOnPage = []

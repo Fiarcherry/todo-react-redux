@@ -6,7 +6,7 @@ import {
 import dbTodosLabels from './dbTodosLabels'
 
 //up to 180
-const count = 91
+const count = 180
 const defaultValue = 'Task to do'
 
 const seeder = ({ dispatch }) => {

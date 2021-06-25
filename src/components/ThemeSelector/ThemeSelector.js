@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import capitalize from 'lodash/capitalize'
 
 import Button from '../common/Button'
 import Container from '../common/Container'
@@ -14,9 +14,7 @@ import fonts from '../../utils/Theme/fonts'
 const ThemeSelector = ({ theme, dispatchSetTheme }) => {
   const elements = getColors().map((item, index) => {
     const isActive = theme.colors.name === item
-    const title = _.capitalize(item)
-
-    // const handleOnClick = () => dispatchSetTheme(item)
+    const title = capitalize(item)
 
     return (
       <Button

@@ -9,7 +9,7 @@ import { setFilter } from '../../handlers/filterHandler'
 import { actionSetFilter } from '../../redux/actions/filterActions'
 import { actionSetPage } from '../../redux/actions/pageActions'
 
-import _ from 'lodash'
+import startCase from 'lodash/startCase'
 
 const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
   const elements = useMemo(
@@ -25,12 +25,12 @@ const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
             key={item}
             isActive={isActive}
             onClick={() => dispatchSetFilter(item)}
-            title={_.startCase(item)}
           />
         )
       }),
     [filter, dispatchSetFilter]
   )
+          title={startCase(item)}
 
   return <Container>{elements}</Container>
 }

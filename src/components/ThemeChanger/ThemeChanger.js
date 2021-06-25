@@ -14,7 +14,8 @@ import { setTheme } from '../../handlers/themeHandler'
 import { actionSetTheme } from '../../redux/actions/themeActions'
 
 import fonts from '../../utils/Theme/fonts'
-import _ from 'lodash'
+
+import startCase from 'lodash/startCase'
 
 const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
   const [popUpActive, setPopUpActive] = useState(false)
@@ -32,11 +33,6 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     },
     [popUpActive]
   )
-
-  // const onBlur = () => {
-  //   console.log('no focus')
-  //   setPrimaryFocus('')
-  // }
 
   const handleInputChange = useCallback(
     (e) => {
@@ -63,10 +59,6 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
     },
     [colorPicker, newColors, primaryFocus]
   )
-
-  // if(newStateKeyValue !== this.state.stateKey){
-  //   this.setState({{stateKey: newStateKeyValue}})
-  // }
 
   useEffect(() => {
     setNewColors(theme.colors)
@@ -118,14 +110,13 @@ const ThemeChanger = ({ theme, dispatchSetTheme, saveSetTheme }) => {
   )
 
   const inputElements = inputsArray.map((item, index) => {
-    const placeholder = _.startCase(item)
+    const placeholder = startCase(item)
     return (
       <Input
         key={index}
         name={item}
         autoFocus={index === 0 ? true : false}
         onFocus={handleFocus}
-        // onBlur={() => !popUpActive && onBlur()}
         placeholder={placeholder}
         value={newColors[item]}
         color={newColors[item]}
