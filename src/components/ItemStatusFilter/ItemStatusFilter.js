@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import Container from '../common/Container'
 import FilterButton from '../common/Button/FilterButton'
@@ -12,25 +13,20 @@ import { actionSetPage } from '../../redux/actions/pageActions'
 import startCase from 'lodash/startCase'
 
 const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
-  const elements = useMemo(
-    () =>
-      filterTypes.map((item) => {
-        const isActive = filter === item
+  const elements = filterTypes.map((item) => {
+    const isActive = filter === item
 
-        // const handleOnClick = () => dispatchSetFilter(item)
-
-        return (
-          <FilterButton
-            type="button"
-            key={item}
-            isActive={isActive}
-            onClick={() => dispatchSetFilter(item)}
-          />
-        )
-      }),
-    [filter, dispatchSetFilter]
-  )
+    return (
+      <Link key={item} to={'/' + item}>
+        <FilterButton
+          type="button"
+          isActive={isActive}
+          onClick={() => dispatchSetFilter(item)}
           title={startCase(item)}
+        />
+      </Link>
+    )
+  })
 
   return <Container>{elements}</Container>
 }
