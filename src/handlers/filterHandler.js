@@ -26,5 +26,5 @@ const tryParseString = (string) => {
   const newFilter = filterTypes[defaultValue]
 
   setFilter(newFilter)
-  return filterTypes[newFilter]
+  return newFilter
 }
