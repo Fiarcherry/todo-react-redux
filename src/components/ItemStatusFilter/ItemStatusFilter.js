@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import Container from '../common/Container'
 import FilterButton from '../common/Button/FilterButton'
+import { StyledLink } from './styles'
 
 import filterTypes from '../../utils/filterTypes'
 import { setFilter } from '../../handlers/filterHandler'
@@ -17,14 +17,14 @@ const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
     const isActive = filter === item
 
     return (
-      <Link key={item} to={'/' + item}>
+      <StyledLink key={item} to={'/' + item}>
         <FilterButton
           type="button"
           isActive={isActive}
           onClick={() => dispatchSetFilter(item)}
           title={startCase(item)}
-        />
-      </Link>
+        ></FilterButton>
+      </StyledLink>
     )
   })
 

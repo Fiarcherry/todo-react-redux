@@ -32,6 +32,7 @@ const Button = ({
           {...props}
         >
           {title}
+          {children}
         </StyledFilterButton>
       )
     case 'icon':
