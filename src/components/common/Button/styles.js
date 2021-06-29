@@ -8,13 +8,12 @@ const StyledButton = styled.button`
 
   font-family: ${({ theme }) => theme.fonts.comicSans};
   font-size: 16px;
-  
+
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
 
   transition: all 100ms ease-in-out;
 
   min-width: fit-content;
-  max-width: 200px;
 
   &:hover {
     color: ${({ theme, isActive }) =>

@@ -51,7 +51,7 @@ const Pagination = ({
       <StyledPage
         key={page}
         isActive={isActive}
-        onClick={() => dispatchSetPage(page)}
+        onClick={() => isActive || dispatchSetPage(page)}
       >
         {page + 1}
       </StyledPage>

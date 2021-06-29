@@ -21,7 +21,7 @@ const ThemeSelector = ({ theme, dispatchSetTheme }) => {
         key={index}
         isActive={isActive}
         title={title}
-        onClick={() => dispatchSetTheme(item)}
+        onClick={() =>isActive || dispatchSetTheme(item)}
       />
     )
   })

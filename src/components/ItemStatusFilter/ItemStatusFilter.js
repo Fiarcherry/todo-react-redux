@@ -21,7 +21,7 @@ const ItemStatusFilter = ({ filter, dispatchSetFilter }) => {
         <FilterButton
           type="button"
           isActive={isActive}
-          onClick={() => dispatchSetFilter(item)}
+          onClick={() => isActive || dispatchSetFilter(item)}
           title={startCase(item)}
         ></FilterButton>
       </StyledLink>

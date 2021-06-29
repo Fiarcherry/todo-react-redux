@@ -23,10 +23,7 @@ const TodoList = ({ todos, pagesCount }) => {
     )
   })
 
-  const containerStyles = useMemo(
-    () => ({ flexDirection: 'column', alignItems: 'stretch' }),
-    []
-  )
+  const containerStyles = useMemo(() => ({ flexDirection: 'column' }), [])
 
   return (
     <Container styles={containerStyles}>
