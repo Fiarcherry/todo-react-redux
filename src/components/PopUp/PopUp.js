@@ -10,8 +10,6 @@ const PopUp = ({
   prevColors,
   children,
 }) => {
-  //const [active, setActive] = useState(true)
-
   const handleContentClick = useCallback((e) => e.stopPropagation(), [])
 
   const handleOutsideClick = useCallback(() => {

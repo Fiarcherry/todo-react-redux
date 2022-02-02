@@ -29,9 +29,6 @@ const selectSortedTodos = createSelector(selectTodos, ([...todos]) => {
     }
   })
 
-  // console.log('sort')
-  // console.log(result)
-
   return result
 })
 
@@ -39,9 +36,6 @@ const selectFilteredTodos = createSelector(
   [selectSortedTodos, selectFilter],
   (todos, filter) => {
     const result = applyFilter(todos, filter)
-
-    // console.log('filter')
-    // console.log(result)
 
     return result
   }
@@ -52,9 +46,6 @@ const selectSearchedByQueryTodos = createSelector(
   (todos, query) => {
     const result = applyQuery(todos, query)
 
-    // console.log('query')
-    // console.log(result)
-
     return result
   }
 )
@@ -63,9 +54,6 @@ export const selectPagesCount = createSelector(
   [selectSearchedByQueryTodos, selectItemsPerPage],
   (todos, itemsPerPage) => {
     const pagesCount = calcPagesCount(todos.length, itemsPerPage)
-
-    // console.log('pagesCount')
-    // console.log(pagesCount)
 
     return pagesCount
   }
@@ -87,9 +75,6 @@ const selectOnPageTodos = createSelector(
       result = todosOnPages[page].map((item) => item)
     }
 
-    // console.log('pages')
-    // console.log(result)
-
     return result
   }
 )
@@ -97,13 +82,10 @@ const selectOnPageTodos = createSelector(
 export const selectVisibleTodos = createSelector(
   [selectOnPageTodos],
   (todos) => {
-    // console.log('visible')
-    // console.log(todos)
 
     return todos
   }
 )
-// const visibleItems = sort(search(filterTodos([...todos], filter), query))
 
 const applyQuery = (todos, query) => {
   if (query.length === 0) {
@@ -153,18 +135,13 @@ const calcPagesCount = (items, perPage) => {
 
 const calcTodosOnPages = (todos, pagesCount, itemsPerPage) => {
   let result = []
-  // console.log(todos.length)
-  // console.log(pages)
-  // console.log(itemsPerPage)
 
   for (let i = 0; i < pagesCount; i++) {
     let itemsOnPage = []
 
     for (let j = 0; j < itemsPerPage; j++) {
       const item = todos[i * itemsPerPage + j]
-      // if (item !== undefined) {
       itemsOnPage.push(item)
-      // }
     }
 
     result.push(itemsOnPage)
@@ -176,28 +153,5 @@ const calcTodosOnPages = (todos, pagesCount, itemsPerPage) => {
     result[lastPage] = result[lastPage].filter((item) => item !== undefined)
   }
 
-  // console.log(result)
-
   return result
 }
-
-// const shallowEqual = (object1, object2) => {
-//   const keys1 = Object.keys(object1)
-//   const keys2 = Object.keys(object2)
-
-//   if (keys1.length !== keys2.length) {
-//     return false
-//   }
-
-// console.log('length pass')
-
-//   for (let key of keys1) {
-//     if (object1[key] !== object2[key]) {
-//       return false
-//     }
-//   }
-
-// console.log('equal pass')
-
-//   return true
-// }

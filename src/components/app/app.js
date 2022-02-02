@@ -23,7 +23,6 @@ import {
   faExclamationCircle,
   faTrashAlt,
   faCheckCircle,
-  faListUl,
   faArrowLeft,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
@@ -36,7 +35,6 @@ library.add(
   faTrashAlt,
   faExclamationCircle,
   faCheckCircle,
-  faListUl,
   faCircle,
   faArrowLeft,
   faArrowRight

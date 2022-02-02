@@ -13,12 +13,6 @@ const Button = ({
   children,
   ...props
 }) => {
-  // return (
-  //   <StyledButton buttonType={buttonType} isActive={isActive}>
-  //     {title}
-  //     {children}
-  //   </StyledButton>
-  // )
 
   switch (buttonType) {
     case 'filter':

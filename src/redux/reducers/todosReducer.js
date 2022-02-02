@@ -41,8 +41,6 @@ const todosReducer = (state = initialState, action = {}) => {
     case DELETE_TODO: {
       const { id } = action.payload
 
-      // return state.filter((todo) => todo.id !== id)
-
       const index = state.findIndex((item) => item.id === id)
 
       if (index !== -1) {

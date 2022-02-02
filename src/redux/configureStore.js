@@ -3,11 +3,7 @@ import {
   createStateSyncMiddleware,
   initStateWithPrevTab,
 } from 'redux-state-sync'
-
-// import loggerMiddleware from './middleware/logger'
 import rootReducer from './reducers'
-
-// import seeder from '../utils/seeder/seeder'
 
 const config = {}
 
@@ -15,7 +11,6 @@ export default function configureAppStore(preloadedState) {
   const store = configureStore({
     reducer: rootReducer,
     middleware: [
-      // loggerMiddleware,
       createStateSyncMiddleware(config),
       ...getDefaultMiddleware(),
     ],
@@ -27,8 +22,6 @@ export default function configureAppStore(preloadedState) {
   }
 
   initStateWithPrevTab(store)
-
-  // seeder(store)
 
   return store
 }
